@@ -11,6 +11,8 @@ const int BOARD_HEIGHT = 20;
 const int FIGURE_DIMENSION = 2;
 const int CHANGE_COLOR = 1;
 
+//comment added
+
 SDL_Window* window = nullptr;
 SDL_Surface* screenSurface = nullptr;
 SDL_Rect* board[BOARD_HEIGHT][BOARD_WIDTH];
