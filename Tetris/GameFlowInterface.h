@@ -9,7 +9,7 @@ class GameFlowInterface
 {
 public:
     InputHandlerInterface* inpHdlInt;
-    virtual int Run(GameController* gameController, enum states) = 0;
+    virtual int Run() = 0;
     virtual void Pause() = 0;
     virtual void Exit() = 0;
 };

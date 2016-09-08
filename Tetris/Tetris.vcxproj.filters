@@ -27,6 +27,9 @@
     <ClCompile Include="GameController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameFlowPlaying.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameController.h">
@@ -41,7 +44,10 @@
     <ClInclude Include="InputSdlImp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameFlow.h">
+    <ClInclude Include="GameFlowInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFlowPlaying.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
