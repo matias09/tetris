@@ -119,7 +119,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameController.cpp" />
+    <ClCompile Include="InputHandlerFactory.cpp" />
+    <ClCompile Include="InputSdlImp.cpp" />
     <ClCompile Include="Source.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameController.h" />
+    <ClInclude Include="GameFlow.h" />
+    <ClInclude Include="InputHandlerFactory.h" />
+    <ClInclude Include="InputHandlerInterface.h" />
+    <ClInclude Include="InputSdlImp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
