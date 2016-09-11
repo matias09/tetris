@@ -1,10 +1,8 @@
 #include <stdio.h>
 
 #include "InputSdlImp.h"
+#include "GameEvents.h"
 #include "SDL.h"
-
-InputSdlImp::InputSdlImp()
-{}
 
 InputSdlImp::~InputSdlImp()
 {
@@ -26,7 +24,7 @@ signed int InputSdlImp::GetInput()
         {
             if (e.type == SDL_QUIT)
             {
-                entryInput = GAME_EVENT_INPUTS::EVENT_EXIT_GAME;
+                entryInput = GAME_EVENTS::EXIT_GAME_SUCCEFULLY;
             }
             else if (e.type == SDL_KEYDOWN)
             {
@@ -50,7 +48,7 @@ signed int InputSdlImp::GetInput()
                     break;
                 case SDLK_ESCAPE:
                     printf("The ESCAPE key were pressed \n");
-                    entryInput = GAME_EVENT_INPUTS::EVENT_GO_BACK;
+                    entryInput = GAME_EVENTS::GO_BACK;
                     break;
                 }
             }
@@ -58,7 +56,7 @@ signed int InputSdlImp::GetInput()
     }
     else
     {
-        entryInput = GAME_EVENT_INPUTS::EVENT_INITIALIZE_ERROR;
+        entryInput = GAME_EVENTS::EXIT_GAME_WITH_ERROR;
     }
 
     return entryInput;

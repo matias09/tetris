@@ -14,15 +14,7 @@ public:
     GameController();
     ~GameController();
     int Run();
-private:
-
-    enum GAME_STATES {
-        EXIT_GAME = -1,
-        PRESENTATION,
-        MAIN_MENU,
-        IN_GAME
-    };
-
+private: 
     int _mActualState = 0;
     InputHandlerInterface* _mInputHandler;
     GraphicHandlerInterface* _mGraphicHandler;

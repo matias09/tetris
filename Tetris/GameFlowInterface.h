@@ -2,14 +2,14 @@
 #define GAME_FLOW_INTERFACE_H 
 
 #include "InputHandlerInterface.h"
-#include "GameController.h"
+#include "GraphicHandlerInterface.h"
+#include "GameStates.h"
 
-class GameController;
 class GameFlowInterface
 {
 public:
-    InputHandlerInterface* inpHdlInt;
-    virtual int Run() = 0;
+    virtual ~GameFlowInterface() {};
+    virtual signed int Run(InputHandlerInterface& inpHandler, GraphicHandlerInterface& grpHandler, GAME_STATES gameStates) = 0;
     virtual void Pause() = 0;
     virtual void Exit() = 0;
 };

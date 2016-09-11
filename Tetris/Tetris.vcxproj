@@ -123,10 +123,11 @@
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="GameFlowPlaying.cpp" />
     <ClCompile Include="GraphicHandlerFactory.cpp" />
-    <ClCompile Include="GraphicHandlerInterface.cpp" />
     <ClCompile Include="GraphicSdlImp.cpp" />
     <ClCompile Include="InputHandlerFactory.cpp" />
+    <ClCompile Include="InputHandlerInterface.cpp" />
     <ClCompile Include="InputSdlImp.cpp" />
+    <ClCompile Include="IShape.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -136,12 +137,15 @@
     <ClInclude Include="GameFlowInterface.h" />
     <ClInclude Include="GameFlowPlaying.h" />
     <ClInclude Include="Config.h" />
+    <ClInclude Include="GameStates.h" />
     <ClInclude Include="GraphicHandlerFactory.h" />
     <ClInclude Include="GraphicHandlerInterface.h" />
     <ClInclude Include="GraphicSdlImp.h" />
     <ClInclude Include="InputHandlerFactory.h" />
     <ClInclude Include="InputHandlerInterface.h" />
     <ClInclude Include="InputSdlImp.h" />
+    <ClInclude Include="IShape.h" />
+    <ClInclude Include="Shape.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

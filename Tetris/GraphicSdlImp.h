@@ -6,9 +6,9 @@
 class GraphicSdlImp : public GraphicHandlerInterface
 {
 public:
-    GraphicSdlImp();
-    ~GraphicSdlImp();
-    virtual void Render(const bool** matrix);
+    GraphicSdlImp() {};
+    virtual ~GraphicSdlImp();
+    virtual void Render(const bool** matrix, const int columns, const int rows, const int pixelBoardWith, const int pixelSpaceBetween);
 };
 
 #endif // !GRAPHIC_SDL_IMP_H

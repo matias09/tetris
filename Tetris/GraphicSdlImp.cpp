@@ -1,13 +1,9 @@
 #include "GraphicSdlImp.h"
 
-GraphicSdlImp::GraphicSdlImp()
-{
-}
-
 GraphicSdlImp::~GraphicSdlImp()
 {
 }
 
-void GraphicSdlImp::Render(const bool** matrix)
+void GraphicSdlImp::Render(const bool** matrix, const int columns, const int rows, const int pixelBoardWith, const int pixelSpaceBetween)
 {
 }

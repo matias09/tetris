@@ -6,7 +6,7 @@
 class Board
 {
 public:
-    Board(const GraphicHandlerInterface& grpHandler);
+    Board(GraphicHandlerInterface& grpHandler);
     ~Board();
     void Create();
     void Update(const bool** figure);
@@ -19,7 +19,7 @@ private:
     const int PIXEL_SPACE_BETWEEN = 5;
 
     bool** _mBoard;
-    GraphicHandlerInterface _mGrpHandler;
+    GraphicHandlerInterface& _mGrpHandler;
 };
 
 #endif // !BOARD_H 
