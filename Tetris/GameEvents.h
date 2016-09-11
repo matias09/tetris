@@ -1,0 +1,5 @@
+
+enum GAME_EVENTS {
+    EXIT_GAME_WITH_ERROR = 0,
+    EXIT_GAME_SUCCEFULLY = 1 
+};

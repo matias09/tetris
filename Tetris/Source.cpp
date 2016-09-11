@@ -3,7 +3,15 @@
 int main(int argc, char** args)
 {
     int gameCode = 0;
-    GameController* gmController = new GameController();
-    gameCode = gmController->Run();
+    GameController* gmController = nullptr;
+    gmController = new GameController(); 
+
+    if (gmController != nullptr)
+    {
+        gameCode = gmController->Run();
+        delete gmController;
+        gmController = nullptr;
+    }
+
     return gameCode;
 }

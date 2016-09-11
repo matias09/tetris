@@ -6,11 +6,7 @@
 class InputHandlerFactory
 {
 public:
-    InputHandlerInterface* GetInputHandler(int inputHandler);
-private:
-    enum LIBS {
-        SDL
-    };
+    InputHandlerInterface* GetInputHandler(const int inputHandlerImp);
 };
 
 #endif //INPUT_HANDLER_FACTORY_H
