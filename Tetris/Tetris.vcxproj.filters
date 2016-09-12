@@ -39,9 +39,6 @@
     <ClCompile Include="GraphicSdlImp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InputHandlerInterface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="IShape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

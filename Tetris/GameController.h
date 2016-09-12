@@ -13,6 +13,7 @@ class GameController
 public:
     GameController();
     ~GameController();
+    bool ThereIsAnyToolError();
     int Run();
 private: 
     int _mActualState = 0;

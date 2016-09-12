@@ -8,9 +8,9 @@
 class GameFlowPlaying : public GameFlowInterface
 {
 public:
-    GameFlowPlaying();
-    virtual ~GameFlowPlaying();
-    virtual signed int Run(InputHandlerInterface& inpHandler, GraphicHandlerInterface& grpHandler, GAME_STATES gameStates);
+    GameFlowPlaying() {};
+    virtual ~GameFlowPlaying() {};
+    virtual signed int Run(InputHandlerInterface& inpHandler, GraphicHandlerInterface& grpHandler);
     virtual void Pause();
     virtual void Exit();
 private:

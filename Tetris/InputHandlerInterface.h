@@ -5,6 +5,7 @@ class InputHandlerInterface
 {
 public:
     virtual ~InputHandlerInterface() {};
+    virtual bool IsInputSdlEnabled() = 0;
     virtual signed int GetInput() = 0;
 
     enum GAME_KEY_INPUTS {

@@ -1,30 +1,49 @@
 #include <stdio.h>
 
 #include "InputSdlImp.h"
-#include "GameEvents.h"
 #include "SDL.h"
+
+InputSdlImp::InputSdlImp()
+{
+    // TODO :: Sacar este hardcodeo HORROROSO
+    // TODO :: Inicializar SDL en algun lugar mas
+    // inteligente
+    SDL_Init(0);
+    // TODO :: Inicializar Events y no el video.
+    // hacer la llamada del video cuando llamamos a la
+    // implementacion de la parte grafica.
+    if (SDL_InitSubSystem(SDL_INIT_VIDEO) == SDL_EVENT_INITIALIZED)
+    {
+        _mIsSdlEventsInitialized = true;
+    // TODO :: Sacar este hardcodeo HORROROSO
+        SDL_CreateWindow("El Sr Titulo", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_SHOWN);
+    }
+}
 
 InputSdlImp::~InputSdlImp()
 {
     if (_mIsSdlEventsInitialized == true)
     {
-        SDL_QuitSubSystem(SDL_INIT_EVENTS);
+        SDL_QuitSubSystem(SDL_INIT_VIDEO);
     }
+}
+
+bool InputSdlImp::IsInputSdlEnabled()
+{
+    return _mIsSdlEventsInitialized;
 }
 
 signed int InputSdlImp::GetInput()
 {
     signed int entryInput = 0;
-    if (SDL_InitSubSystem(SDL_INIT_EVENTS) == SDL_EVENT_INITIALIZED)
+    SDL_Event e;
+    while (entryInput != GAME_KEY_INPUTS::KEY_SCAPE)
     {
-        _mIsSdlEventsInitialized = true;
-        SDL_Event e;
-
         while (SDL_PollEvent(&e) != 0)
         {
             if (e.type == SDL_QUIT)
             {
-                entryInput = GAME_EVENTS::EXIT_GAME_SUCCEFULLY;
+                entryInput = GAME_KEY_INPUTS::KEY_SCAPE;
             }
             else if (e.type == SDL_KEYDOWN)
             {
@@ -46,18 +65,21 @@ signed int InputSdlImp::GetInput()
                     printf("The RIGHT arrow key were pressed \n");
                     entryInput = GAME_KEY_INPUTS::KEY_ARROW_RIGHT;
                     break;
+                case SDLK_SPACE:
+                    printf("The SPACE_BAR arrow key were pressed \n");
+                    entryInput = GAME_KEY_INPUTS::KEY_SPACE;
+                    break;
+                case SDLK_RETURN:
+                    printf("The RETURN arrow key were pressed \n");
+                    entryInput = GAME_KEY_INPUTS::KEY_ENTER;
+                    break;
                 case SDLK_ESCAPE:
                     printf("The ESCAPE key were pressed \n");
-                    entryInput = GAME_EVENTS::GO_BACK;
+                    entryInput = GAME_KEY_INPUTS::KEY_SCAPE;
                     break;
                 }
             }
         }
     }
-    else
-    {
-        entryInput = GAME_EVENTS::EXIT_GAME_WITH_ERROR;
-    }
-
     return entryInput;
 }

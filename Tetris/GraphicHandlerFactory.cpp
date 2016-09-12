@@ -16,7 +16,7 @@ GraphicHandlerInterface * GraphicHandlerFactory::GetGraphicHandler(const int lib
 
     switch (lib)
     {
-    case CONFIG::GRAPHIC_IMPLEMENTATION::SDL:
+    case GRAPHIC_CONFIG::GRAPHIC_IMPLEMENTATION::SDL:
         grpHandler = new GraphicSdlImp();
         break;
     }

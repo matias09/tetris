@@ -10,7 +10,7 @@ InputHandlerInterface* InputHandlerFactory::GetInputHandler(const int inputHandl
 
     switch (inputHandlerImp)
     {
-    case CONFIG::INPUT_IMPLEMENTATION::SDL:
+    case INPUT_CONFIG::INPUT_IMPLEMENTATION::SDL:
         inpHnd = new InputSdlImp();
         break;
     }

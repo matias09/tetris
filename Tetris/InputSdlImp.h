@@ -6,8 +6,9 @@
 class InputSdlImp : public InputHandlerInterface
 {
 public:
-    InputSdlImp() {};
+    InputSdlImp();
     virtual ~InputSdlImp();
+    virtual bool IsInputSdlEnabled();
     virtual signed int GetInput();
 private:
     bool _mIsSdlEventsInitialized = false;

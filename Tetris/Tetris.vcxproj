@@ -125,7 +125,6 @@
     <ClCompile Include="GraphicHandlerFactory.cpp" />
     <ClCompile Include="GraphicSdlImp.cpp" />
     <ClCompile Include="InputHandlerFactory.cpp" />
-    <ClCompile Include="InputHandlerInterface.cpp" />
     <ClCompile Include="InputSdlImp.cpp" />
     <ClCompile Include="IShape.cpp" />
     <ClCompile Include="Source.cpp" />

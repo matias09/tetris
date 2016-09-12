@@ -3,13 +3,12 @@
 
 #include "InputHandlerInterface.h"
 #include "GraphicHandlerInterface.h"
-#include "GameStates.h"
 
 class GameFlowInterface
 {
 public:
     virtual ~GameFlowInterface() {};
-    virtual signed int Run(InputHandlerInterface& inpHandler, GraphicHandlerInterface& grpHandler, GAME_STATES gameStates) = 0;
+    virtual signed int Run(InputHandlerInterface& inpHandler, GraphicHandlerInterface& grpHandler) = 0;
     virtual void Pause() = 0;
     virtual void Exit() = 0;
 };

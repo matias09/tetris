@@ -1,18 +1,15 @@
 #include "GameFlowPlaying.h"
+#include "GameStates.h"
 
-GameFlowPlaying::GameFlowPlaying()
-{
-}
-
-GameFlowPlaying::~GameFlowPlaying()
-{}
-
-signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandlerInterface& grpHandler, GAME_STATES gameStates)
+signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandlerInterface& grpHandler)
 {
     // creo el tablero
     // obtengo la figura
 
-    signed int input = inpHandler.GetInput();
+    signed int input = 0;
+    do
+    {
+        input = inpHandler.GetInput();
         switch (input)
         {
         case InputHandlerInterface::KEY_ARROW_UP:
@@ -24,9 +21,10 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
         case InputHandlerInterface::KEY_ARROW_LEFT:
             break;
         case InputHandlerInterface::KEY_SCAPE:
-            return GAME_STATES::MAIN_MENU;
+            input = GAME_STATES::EXIT_GAME;
             break;
         }
+    } while (input != GAME_STATES::EXIT_GAME);
 
     return input;
 }

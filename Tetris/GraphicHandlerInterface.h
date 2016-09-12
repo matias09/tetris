@@ -5,7 +5,8 @@ class GraphicHandlerInterface
 {
 public:
     virtual ~GraphicHandlerInterface() {};
-    virtual void Render(const bool** matrix, const int columns, const int rows, const int pixelBoardWith, const int pixelSpaceBetween) = 0;
+    virtual bool IsGraphicSdlEnabled() = 0;
+    virtual void Render(bool** matrix, const int columns, const int rows, const int pixelBoardWith, const int pixelSpaceBetween) = 0;
 };
 
 #endif // !GRAPHIC_HANDLER_INTERFACE_H
