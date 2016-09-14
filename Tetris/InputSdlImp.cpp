@@ -1,22 +1,16 @@
 #include <stdio.h>
 
 #include "InputSdlImp.h"
+
+#ifndef GRAPHIC_SDL_IMP_H 
 #include "SDL.h"
+#endif // !GRAPHIC_SDL_IMP_H 
 
 InputSdlImp::InputSdlImp()
 {
-    // TODO :: Sacar este hardcodeo HORROROSO
-    // TODO :: Inicializar SDL en algun lugar mas
-    // inteligente
-    SDL_Init(0);
-    // TODO :: Inicializar Events y no el video.
-    // hacer la llamada del video cuando llamamos a la
-    // implementacion de la parte grafica.
-    if (SDL_InitSubSystem(SDL_INIT_VIDEO) == SDL_EVENT_INITIALIZED)
+    if (SDL_InitSubSystem(SDL_INIT_EVENTS) == SDL_EVENT_INITIALIZED)
     {
         _mIsSdlEventsInitialized = true;
-    // TODO :: Sacar este hardcodeo HORROROSO
-        SDL_CreateWindow("El Sr Titulo", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_SHOWN);
     }
 }
 
@@ -24,7 +18,7 @@ InputSdlImp::~InputSdlImp()
 {
     if (_mIsSdlEventsInitialized == true)
     {
-        SDL_QuitSubSystem(SDL_INIT_VIDEO);
+        SDL_QuitSubSystem(SDL_INIT_EVENTS);
     }
 }
 

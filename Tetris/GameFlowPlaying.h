@@ -14,6 +14,7 @@ public:
     virtual void Pause();
     virtual void Exit();
 private:
+    Shape* _GetRandomShape();
     int _mScore;
     int _mTime;
     Board* _mBoard;

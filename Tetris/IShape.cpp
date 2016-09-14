@@ -1,25 +1,55 @@
 #include "IShape.h"
 
-const int COLUMNS = 5;
-const int ROWS = 4;
-
-bool IShape::Create()
+IShape::IShape()
 {
-    bool shape[COLUMNS][ROWS];
-
-    for (int i = 0; i < COLUMNS; i++)
+    _mMatrix = new bool*[ROWS];
+    for (int i = 0; i < ROWS; i++)
     {
-        for (int j = 0; j < ROWS; j++)
-        {
-            if (i == 2)
-            {
-                shape[i][j] = 1;
-            }
-        }
+        _mMatrix[i] = new bool[COLUMNS];
     }
 
-    return shape;
+    _mPosition = new int[COORDINATE_ELEMENTS];
+    _mPosition[X_COORDINATE] = 2;
+    _mPosition[Y_COORDINATE] = 0;
 }
 
-void IShape::Rotate(Shape& shape)
+bool** IShape::Create()
+{
+    signed int xActualPos = 0;
+    signed int yActualPos = _mPosition[Y_COORDINATE];
+
+    for (int i = 0; i < ROWS; i++)
+    {
+        for (int j = 0; j < COLUMNS; j++)
+        {
+            if (i == MIDDLE_COLUMN_NUM)
+            {
+                xActualPos = _mPosition[X_COORDINATE];
+                _mMatrix[yActualPos][xActualPos] = 1;
+            }
+        }
+        yActualPos = i + _mPosition[Y_COORDINATE];
+        xActualPos = 0;
+    }
+
+    return _mMatrix;
+}
+
+void IShape::Rotate()
 {}
+
+void IShape::MoveDown()
+{
+}
+
+void IShape::MoveUp()
+{
+}
+
+void IShape::MoveRight()
+{
+}
+
+void IShape::MoveLeft()
+{
+}

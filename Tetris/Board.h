@@ -9,14 +9,13 @@ public:
     Board(GraphicHandlerInterface& grpHandler);
     ~Board();
     void Create();
-    void Update(const bool** figure);
+    void Update(bool** figure, int* figurePos, const int colums, const int rows);
 private:
-    bool _ThereIsCollision(const bool** figure);
+    bool _ThereIsCollision(bool** figure, int* figurePos, const int colums, const int rows);
+    void _UpdateFigureInBoard(bool** figure, int* figurePos, const int colums, const int rows);
 
     const int COLUMNS = 10;
     const int ROWS = 20;
-    const int PIXEL_BOARD_WIDTH = 15;
-    const int PIXEL_SPACE_BETWEEN = 5;
 
     bool** _mBoard;
     GraphicHandlerInterface& _mGrpHandler;
