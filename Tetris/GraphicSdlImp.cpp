@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "GraphicSdlImp.h"
 
 GraphicSdlImp::GraphicSdlImp()
@@ -30,6 +31,8 @@ void GraphicSdlImp::Render(bool** matrix, const int columns, const int rows)
    int xSeparation = 0;
    int ySeparation = 0;
 
+   printf("\n Drawing board \n ");
+
    for (int i = 0; i < rows; ++i)
    {
        for (int j = 0; j < columns; ++j)
@@ -37,7 +40,7 @@ void GraphicSdlImp::Render(bool** matrix, const int columns, const int rows)
             _mSquare->x = xSeparation;
             _mSquare->y = ySeparation;
 	    
-            xSeparation = PIXEL_BOARD_WIDTH + PIXEL_SPACE_BETWEEN;
+            xSeparation += PIXEL_BOARD_WIDTH + PIXEL_SPACE_BETWEEN;
                 
             if (matrix[i][j] == CHANGE_COLOR_MARK)
             {

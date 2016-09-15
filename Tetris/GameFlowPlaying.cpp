@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "GameFlowPlaying.h"
 #include "GameStates.h"
 #include "IShape.h"
@@ -10,29 +12,40 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
 
     // obtengo la figura
     _mShape = _GetRandomShape();
+	_mBoard->Update(_mShape->GetMatrix(), _mShape->GetPosition(), _mShape->GetColumns(), _mShape->GetRows());
 
     signed int input = 0;
+	bool exitGameFlowPlaying = false;
     do
     {
-        _mBoard->Update(_mShape->GetMatrix(), _mShape->GetPosition(), _mShape->GetColumns(), _mShape->GetRows());
+		input = 0;
         input = inpHandler.GetInput();
         switch (input)
         {
         case InputHandlerInterface::KEY_ARROW_UP:
+			printf("GAME_FLOW :: up \n ");
+		_mBoard->Update(_mShape->GetMatrix(), _mShape->GetPosition(), _mShape->GetColumns(), _mShape->GetRows());
             break;
         case InputHandlerInterface::KEY_ARROW_DOWN:
+			printf("GAME_FLOW :: down \n ");
+		_mBoard->Update(_mShape->GetMatrix(), _mShape->GetPosition(), _mShape->GetColumns(), _mShape->GetRows());
             break;
         case InputHandlerInterface::KEY_ARROW_RIGHT:
+			printf("GAME_FLOW :: right \n ");
+		_mBoard->Update(_mShape->GetMatrix(), _mShape->GetPosition(), _mShape->GetColumns(), _mShape->GetRows());
             break;
         case InputHandlerInterface::KEY_ARROW_LEFT:
+			printf("GAME_FLOW :: left \n ");
+		_mBoard->Update(_mShape->GetMatrix(), _mShape->GetPosition(), _mShape->GetColumns(), _mShape->GetRows());
             break;
         case InputHandlerInterface::KEY_SCAPE:
-            input = GAME_STATES::EXIT_GAME;
+			printf("GAME_FLOW :: scape \n ");
+            exitGameFlowPlaying = GAME_STATES::EXIT_GAME;
             break;
         }
-    } while (input != GAME_STATES::EXIT_GAME);
+    } while (exitGameFlowPlaying != GAME_STATES::EXIT_GAME);
 
-    return input;
+    return exitGameFlowPlaying;
 }
 
 void GameFlowPlaying::Pause()

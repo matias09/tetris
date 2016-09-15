@@ -22,7 +22,7 @@ bool** IShape::Create()
     {
         for (int j = 0; j < COLUMNS; j++)
         {
-            if (i == MIDDLE_COLUMN_NUM)
+            if (j == MIDDLE_COLUMN_NUM)
             {
                 xActualPos = _mPosition[X_COORDINATE];
                 _mMatrix[yActualPos][xActualPos] = 1;
