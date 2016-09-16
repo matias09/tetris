@@ -6,9 +6,6 @@
 class IShape : public Shape
 {
 public:
-    const int COLUMNS = 5;
-    const int ROWS = 4;
-
     IShape();
     virtual ~IShape() {};
     virtual bool** Create();
@@ -18,15 +15,12 @@ public:
     virtual void MoveRight();
     virtual void MoveLeft();
 
-    virtual const int GetColumns() { return COLUMNS; }
-    virtual const int GetRows() { return ROWS; }
+    virtual const int GetColumns() { return 1; }
+    virtual const int GetRows() { return 4; }
     virtual bool** GetMatrix() { return _mMatrix; };
     virtual signed int* GetPosition() { return _mPosition; };
 
     virtual void SetPosition(signed int* position) { _mPosition = position; };
-
-private:
-    const int MIDDLE_COLUMN_NUM = 2;
 };
 
 #endif // !ISHAPE_H

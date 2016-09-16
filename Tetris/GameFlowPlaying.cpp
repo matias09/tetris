@@ -14,8 +14,9 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
     _mShape = _GetRandomShape();
 	_mBoard->Update(_mShape->GetMatrix(), _mShape->GetPosition(), _mShape->GetColumns(), _mShape->GetRows());
 
-    signed int input = 0;
+	const bool HAS_TO_RESET = true;
 	bool exitGameFlowPlaying = false;
+    signed int input = 0;
     do
     {
 		input = 0;
@@ -24,19 +25,27 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
         {
         case InputHandlerInterface::KEY_ARROW_UP:
 			printf("GAME_FLOW :: up \n ");
-		_mBoard->Update(_mShape->GetMatrix(), _mShape->GetPosition(), _mShape->GetColumns(), _mShape->GetRows());
+			_mBoard->EraseLastPosition(_mShape->GetMatrix(), _mShape->GetPosition(), _mShape->GetColumns(), _mShape->GetRows());
+			_mShape->MoveUp();
+			_mBoard->Update(_mShape->GetMatrix(), _mShape->GetPosition(), _mShape->GetColumns(), _mShape->GetRows());
             break;
         case InputHandlerInterface::KEY_ARROW_DOWN:
 			printf("GAME_FLOW :: down \n ");
-		_mBoard->Update(_mShape->GetMatrix(), _mShape->GetPosition(), _mShape->GetColumns(), _mShape->GetRows());
+			_mBoard->EraseLastPosition(_mShape->GetMatrix(), _mShape->GetPosition(), _mShape->GetColumns(), _mShape->GetRows());
+			_mShape->MoveDown();
+			_mBoard->Update(_mShape->GetMatrix(), _mShape->GetPosition(), _mShape->GetColumns(), _mShape->GetRows());
             break;
         case InputHandlerInterface::KEY_ARROW_RIGHT:
 			printf("GAME_FLOW :: right \n ");
-		_mBoard->Update(_mShape->GetMatrix(), _mShape->GetPosition(), _mShape->GetColumns(), _mShape->GetRows());
+			_mBoard->EraseLastPosition(_mShape->GetMatrix(), _mShape->GetPosition(), _mShape->GetColumns(), _mShape->GetRows());
+			_mShape->MoveRight();
+			_mBoard->Update(_mShape->GetMatrix(), _mShape->GetPosition(), _mShape->GetColumns(), _mShape->GetRows());
             break;
         case InputHandlerInterface::KEY_ARROW_LEFT:
 			printf("GAME_FLOW :: left \n ");
-		_mBoard->Update(_mShape->GetMatrix(), _mShape->GetPosition(), _mShape->GetColumns(), _mShape->GetRows());
+			_mBoard->EraseLastPosition(_mShape->GetMatrix(), _mShape->GetPosition(), _mShape->GetColumns(), _mShape->GetRows());
+			_mShape->MoveLeft();
+			_mBoard->Update(_mShape->GetMatrix(), _mShape->GetPosition(), _mShape->GetColumns(), _mShape->GetRows());
             break;
         case InputHandlerInterface::KEY_SCAPE:
 			printf("GAME_FLOW :: scape \n ");

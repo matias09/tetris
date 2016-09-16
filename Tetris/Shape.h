@@ -20,8 +20,8 @@ public:
     virtual void SetPosition(signed int* position) = 0;
 
     const int COORDINATE_ELEMENTS = 2;
-    const int Y_COORDINATE = 0;
-    const int X_COORDINATE = 1;
+	const int X_COORDINATE = 0;
+    const int Y_COORDINATE = 1;
 
     signed int* _mPosition;
     bool** _mMatrix;
