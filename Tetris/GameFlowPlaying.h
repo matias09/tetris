@@ -8,16 +8,24 @@
 class GameFlowPlaying : public GameFlowInterface
 {
 public:
-    GameFlowPlaying() {};
-    virtual ~GameFlowPlaying() {};
+	GameFlowPlaying();
+    virtual ~GameFlowPlaying();
     virtual signed int Run(InputHandlerInterface& inpHandler, GraphicHandlerInterface& grpHandler);
     virtual void Pause();
     virtual void Exit();
+    virtual bool _ThereIsCollision();
 private:
+	void _ExecuteShapeDown();
+	void _ExecuteShapeRight();
+	void _ExecuteShapeLeft();
+	void _ExecuteShapeRotate();
     Shape* _GetRandomShape();
+
+    Shape* _mShape;
+    Board* _mBoard;
     int _mScore;
     int _mTime;
-    Board* _mBoard;
-    Shape* _mShape;
+	signed int* _mPosFrom;
+	signed int* _mPosTo;
 };
 #endif

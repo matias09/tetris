@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "GraphicSdlImp.h"
 
 GraphicSdlImp::GraphicSdlImp()
@@ -19,6 +18,22 @@ GraphicSdlImp::~GraphicSdlImp()
     {
         SDL_QuitSubSystem(SDL_INIT_VIDEO);
     }
+
+    if (_mWindow != nullptr)
+    {
+        SDL_DestroyWindow(_mWindow);
+    }
+
+    if (_mSurface != nullptr)
+    {
+        SDL_FreeSurface(_mSurface);
+    }
+
+    if (_mSquare != nullptr)
+    {
+        delete _mSquare;
+        _mSquare = nullptr;
+    }
 }
 
 bool GraphicSdlImp::IsGraphicSdlEnabled()
@@ -26,12 +41,10 @@ bool GraphicSdlImp::IsGraphicSdlEnabled()
     return _mIsGraphicEnable;
 }
 
-void GraphicSdlImp::Render(bool** matrix, const int columns, const int rows)
+void GraphicSdlImp::Render(bool** matrix, const int columns, const int rows, int colorMod)
 {
    int xSeparation = 0;
    int ySeparation = 0;
-
-   printf("\n Drawing board \n ");
 
    for (int i = 0; i < rows; ++i)
    {
@@ -44,11 +57,11 @@ void GraphicSdlImp::Render(bool** matrix, const int columns, const int rows)
                 
             if (matrix[i][j] == CHANGE_COLOR_MARK)
             {
-               SDL_FillRect(_mSurface, _mSquare, SDL_MapRGB(_mSurface->format, 0x00, 0x00, 0xff)); 
+               SDL_FillRect(_mSurface, _mSquare, SDL_MapRGB(_mSurface->format, DEFAULT_HEX_RED_VALUE + colorMod, DEFAULT_HEX_GREEN_VALUE + colorMod, DEFAULT_HEX_BLUE_VALUE + colorMod)); 
             }
             else
             {
-               SDL_FillRect(_mSurface, _mSquare, SDL_MapRGB(_mSurface->format, 0x00, 0xff, 0xff)); 
+               SDL_FillRect(_mSurface, _mSquare, SDL_MapRGB(_mSurface->format, DEFAULT_HEX_RED_VALUE, DEFAULT_HEX_GREEN_VALUE, DEFAULT_HEX_BLUE_VALUE)); 
             }
        }
 

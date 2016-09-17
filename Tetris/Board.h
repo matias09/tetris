@@ -6,20 +6,19 @@
 class Board
 {
 public:
-    Board(GraphicHandlerInterface& grpHandler);
+    Board();
     ~Board();
     void Create();
-    void Update(bool** figure, int* figurePos, const int colums, const int rows);
-    void EraseLastPosition(bool** figure, int* figurePos, const int colums, const int rows);
-private:
-    bool _ThereIsCollision(bool** figure, int* figurePos, const int colums, const int rows);
-    void _UpdateFigureInBoard(bool** figure, int* figurePos, const int colums, const int rows);
 
+	const int GetColumns() { return COLUMNS; }
+	const int GetRows() { return ROWS; }
+	bool** GetBoardMatrix() { return _mBoard; }
+    void UpdateFigureInBoard(bool** shape, int* shapePosFrom, int* shapePosTo, const int colums, const int rows);
+private:
     const int COLUMNS = 10;
     const int ROWS = 20;
 
     bool** _mBoard;
-    GraphicHandlerInterface& _mGrpHandler;
 };
 
 #endif // !BOARD_H 

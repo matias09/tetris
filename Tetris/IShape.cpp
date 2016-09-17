@@ -2,31 +2,27 @@
 
 IShape::IShape()
 {
-	// TODO :: Eliminar hardcodeo de indice
-    _mMatrix = new bool*[4];
-    for (int i = 0; i < 4; i++)
+    _mMatrix = new bool*[SHAPE_DIMENSION];
+    for (int i = 0; i < SHAPE_DIMENSION; i++)
     {
-		// TODO :: Eliminar hardcodeo de indice
-        _mMatrix[i] = new bool[1];
+        _mMatrix[i] = new bool[SHAPE_DIMENSION];
     }
-
-    _mPosition = new int[COORDINATE_ELEMENTS];
-    _mPosition[X_COORDINATE] = 4;
-    _mPosition[Y_COORDINATE] = 0;
 }
 
 bool** IShape::Create()
 {
-	// TODO :: Eliminar hardcodeo en i < 1. Debe ir la cantidad de Filas necesarias
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < SHAPE_DIMENSION; i++)
     {
-		// TODO :: Eliminar hardcodeo en j < 1. Debe ir la cantidad de Columnas necesarias 
-        for (int j = 0; j < 1; j++)
+        for (int j = 0; j < SHAPE_DIMENSION; j++)
         {
             if (j == 0)
             {
                 _mMatrix[i][j] = 1;
             }
+			else
+			{
+				_mMatrix[i][j] = 0;
+			}
         }
     }
 
@@ -36,22 +32,19 @@ bool** IShape::Create()
 void IShape::Rotate()
 {}
 
-void IShape::MoveDown()
+void IShape::MoveUp(signed int position[], const int coordinate){}
+
+void IShape::MoveDown(signed int position[], const int coordinate)
 {
-	++_mPosition[Y_COORDINATE];
+	++position[coordinate];
 }
 
-void IShape::MoveUp()
+void IShape::MoveRight(signed int position[], const int coordinate)
 {
-	--_mPosition[Y_COORDINATE];
+	++position[coordinate];
 }
 
-void IShape::MoveRight()
+void IShape::MoveLeft(signed int position[], const int coordinate)
 {
-	++_mPosition[X_COORDINATE];
-}
-
-void IShape::MoveLeft()
-{
-	--_mPosition[X_COORDINATE];
+	--position[coordinate];
 }

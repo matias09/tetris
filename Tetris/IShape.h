@@ -10,17 +10,18 @@ public:
     virtual ~IShape() {};
     virtual bool** Create();
     virtual void Rotate();
-    virtual void MoveDown();
-    virtual void MoveUp();
-    virtual void MoveRight();
-    virtual void MoveLeft();
+    virtual void MoveDown(signed int position[], const int coordinate);
+    virtual void MoveUp(signed int position[], const int coordinate);
+    virtual void MoveRight(signed int position[], const int coordinate);
+    virtual void MoveLeft(signed int position[], const int coordinate);
 
-    virtual const int GetColumns() { return 1; }
-    virtual const int GetRows() { return 4; }
+	// Get
+    virtual const int GetColumns() { return SHAPE_DIMENSION; }
+    virtual const int GetRows() { return SHAPE_DIMENSION; }
+    virtual const int GetColorMod() { return COLOR_MODIFICATOR; }
     virtual bool** GetMatrix() { return _mMatrix; };
-    virtual signed int* GetPosition() { return _mPosition; };
 
-    virtual void SetPosition(signed int* position) { _mPosition = position; };
+    const int COLOR_MODIFICATOR = 0xfa;
 };
 
 #endif // !ISHAPE_H

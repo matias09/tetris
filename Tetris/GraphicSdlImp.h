@@ -10,7 +10,7 @@ public:
     GraphicSdlImp();
     virtual ~GraphicSdlImp();
     virtual bool IsGraphicSdlEnabled();
-    virtual void Render(bool** matrix, const int columns, const int rows);
+    virtual void Render(bool** matrix, const int columns, const int rows, int colorMod = 0);
     virtual void CreateWindow();
 private:
     const int SDL_GRAPHIC_INITIALIZED = 0;
