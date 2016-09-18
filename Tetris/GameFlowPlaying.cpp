@@ -31,16 +31,16 @@ GameFlowPlaying::~GameFlowPlaying()
 
 signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandlerInterface& grpHandler)
 {
-    // creo el tablero
+    // Build Board 
     _mBoard = new Board();
     _mBoard->Create();
 
-    // obtengo la figura
+    // Get Randon Shape 
     _mShape = _GetRandomShape();
-	//_mBoard->UpdateFigureInBoard(_mShape->GetMatrix(), _mPosFrom, _mPosTo, _mShape->GetColumns(), _mShape->GetRows());
 
 	bool exitGameFlowPlaying = false;
-	bool genearateNewShape = false;
+	bool thereIsCollision = false;
+	bool needOfOtherShape = false;
     signed int input;
 
     do
@@ -54,12 +54,15 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
             break;
         case InputHandlerInterface::KEY_ARROW_DOWN:
 			_ExecuteShapeDown();
+			needOfOtherShape = _IsBottomOrDownShapeCollision();
             break;
         case InputHandlerInterface::KEY_ARROW_RIGHT:
 			_ExecuteShapeRight();
+			thereIsCollision = _ThereIsCollision();
             break;
         case InputHandlerInterface::KEY_ARROW_LEFT:
 			_ExecuteShapeLeft();
+			thereIsCollision = _ThereIsCollision();
             break;
         case InputHandlerInterface::KEY_SCAPE:
 #ifdef DEBUG
@@ -69,19 +72,23 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
             break;
         }
 
-		if (_IsOutOfRange() == false)
+		if (needOfOtherShape == true)
 		{
-//			if (_ThereIsCollision() == false)
-//			{
-				_mBoard->UpdateFigureInBoard(_mShape->GetMatrix(), _mPosFrom, _mPosTo, _mShape->GetColumns(), _mShape->GetRows());
-				_mPosFrom[X_COORDINATE] = _mPosTo[X_COORDINATE];
-				_mPosFrom[Y_COORDINATE] = _mPosTo[Y_COORDINATE];
-				grpHandler.Render(_mBoard->GetBoardMatrix(), _mBoard->GetColumns(), _mBoard->GetRows(), _mShape->GetColorMod());
-//			}
-//			else
-//			{
-//				_mShape = _GetRandomShape();
-//			}
+			needOfOtherShape = false;
+			_mShape = _GetRandomShape();
+			continue;
+		}
+
+		if (thereIsCollision == false)
+		{
+			_mBoard->UpdateFigureInBoard(_mShape->GetMatrix(), _mPosFrom, _mPosTo, _mShape->GetColumns(), _mShape->GetRows());
+			_mPosFrom[X_COORDINATE] = _mPosTo[X_COORDINATE];
+			_mPosFrom[Y_COORDINATE] = _mPosTo[Y_COORDINATE];
+			grpHandler.Render(_mBoard->GetBoardMatrix(), _mBoard->GetColumns(), _mBoard->GetRows(), _mShape->GetColorMod());
+		}
+		else
+		{
+			thereIsCollision = false;
 		}
 
     } while (exitGameFlowPlaying != GAME_STATES::EXIT_GAME);
@@ -103,44 +110,6 @@ Shape* GameFlowPlaying::_GetRandomShape()
     return shape;
 }
 
-bool GameFlowPlaying::_IsOutOfRange()
-{
-	bool outOfRange = false;
-	signed int xActualPos = _mPosTo[X_COORDINATE];
-	signed int yActualPos = _mPosTo[Y_COORDINATE];
-	int boardColumns = _mBoard->GetColumns();
-	int boardRows = _mBoard->GetRows();
-	int shapeColumns = _mShape->GetColumns();
-	int shapeRows = _mShape->GetRows();
-	bool** shapeMatrix = _mShape->GetMatrix();
-	bool** boardMatrix = _mBoard->GetBoardMatrix();
-
-	for (int i = 0; i < shapeRows && outOfRange == false; i++)
-	{
-		for (int j = 0; j < shapeColumns; j++)
-		{
-			if (shapeMatrix[i][j] == 1)
-			{
-				if ((xActualPos == -1 || xActualPos == boardColumns) || yActualPos == boardRows)
-				{
-					_mPosTo[X_COORDINATE] = _mPosFrom[X_COORDINATE];
-					_mPosTo[Y_COORDINATE] = _mPosFrom[Y_COORDINATE];
-					outOfRange = true;
-					break;
-				}
-			}
-			xActualPos++;
-		}
-
-		// Esto va corriendo la posicion en Y
-		yActualPos++;
-
-		// Reseteo X para que comience from el begin of la row
-        xActualPos = _mPosTo[X_COORDINATE];
-    }
-    return outOfRange;
-}
-
 bool GameFlowPlaying::_ThereIsCollision()
 {
 	bool collision = false;
@@ -159,8 +128,11 @@ bool GameFlowPlaying::_ThereIsCollision()
 		{
 			if (shapeMatrix[i][j] == 1)
 			{
-				if (boardMatrix[yActualPos][xActualPos] == 1)
-				{
+				if ((xActualPos == -1 || xActualPos == boardColumns) 
+					|| boardMatrix[yActualPos][xActualPos] == 1
+				) {
+					_mPosTo[X_COORDINATE] = _mPosFrom[X_COORDINATE];
+					_mPosTo[Y_COORDINATE] = _mPosFrom[Y_COORDINATE];
 					collision = true;
 					break;
 				}
@@ -173,6 +145,34 @@ bool GameFlowPlaying::_ThereIsCollision()
 
 		// Reseteo X para que comience from el begin of la row
         xActualPos = _mPosTo[X_COORDINATE];
+    }
+    return collision;
+}
+
+bool GameFlowPlaying::_IsBottomOrDownShapeCollision()
+{
+	bool collision = false;
+	signed int xActualPos = _mPosTo[X_COORDINATE];
+	signed int yActualPos = _mPosTo[Y_COORDINATE];
+	int boardColumns = _mBoard->GetColumns();
+	int boardRows = _mBoard->GetRows();
+	int shapeColumns = _mShape->GetColumns();
+	int shapeRows = _mShape->GetRows();
+	int lastShapeRow = yActualPos + (shapeRows - 1);
+	bool** shapeMatrix = _mShape->GetMatrix();
+	bool** boardMatrix = _mBoard->GetBoardMatrix();
+
+	for (int j = 0; j < shapeColumns && collision == false; j++)
+	{
+		if (shapeMatrix[shapeRows - 1][j] == 1)
+		{
+			if (lastShapeRow == boardRows
+				|| boardMatrix[lastShapeRow][xActualPos] == 1
+			) {
+				collision = true;
+				break;
+			}
+		}
     }
 	return collision;
 }

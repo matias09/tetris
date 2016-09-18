@@ -14,7 +14,7 @@ public:
     virtual void Pause();
     virtual void Exit();
     virtual bool _ThereIsCollision();
-    virtual bool _IsOutOfRange();
+	virtual bool _IsBottomOrDownShapeCollision();
 private:
 	void _ExecuteShapeDown();
 	void _ExecuteShapeRight();
