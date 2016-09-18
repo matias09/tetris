@@ -15,6 +15,10 @@ public:
     virtual void Exit();
     virtual bool _ThereIsCollision();
 	virtual bool _IsBottomOrDownShapeCollision();
+
+	// Set
+	virtual void SetDificultyGrade(const unsigned int dificulty) { _mDificultyGrade = dificulty; }
+	virtual void SetPuntuation(const unsigned int puntuation) { _mPuntuation = puntuation; }
 private:
 	void _ExecuteShapeDown();
 	void _ExecuteShapeRight();
@@ -27,6 +31,8 @@ private:
     Board* _mBoard;
     int _mScore;
     int _mTime;
+	unsigned int _mDificultyGrade;
+	unsigned int _mPuntuation;
 	signed int* _mPosFrom;
 	signed int* _mPosTo;
 };

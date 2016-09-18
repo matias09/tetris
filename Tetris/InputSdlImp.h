@@ -10,6 +10,7 @@ public:
     virtual ~InputSdlImp();
     virtual bool IsInputSdlEnabled();
     virtual signed int GetInput();
+	virtual unsigned int GetTicks();
 private:
     bool _mIsSdlEventsInitialized = false;
 

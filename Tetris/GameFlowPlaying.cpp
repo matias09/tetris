@@ -13,6 +13,9 @@ GameFlowPlaying::GameFlowPlaying()
     _mPosTo = new int[COORDINATE_ELEMENTS];
     _mPosTo[X_COORDINATE] = 4;
     _mPosTo[Y_COORDINATE] = 0;
+
+	_mDificultyGrade = 0;
+	_mPuntuation = 0;
 }
 GameFlowPlaying::~GameFlowPlaying()
 {
@@ -35,18 +38,41 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
     _mBoard = new Board();
     _mBoard->Create();
 
-    // Get Randon Shape 
+    // Get Random Shape
     _mShape = _GetRandomShape();
 
 	bool exitGameFlowPlaying = false;
 	bool thereIsCollision = false;
 	bool needOfOtherShape = false;
-    signed int input;
+	unsigned int currentTime = 0;
+	unsigned int lastTime = 0;
+	signed int input = 0;
 
     do
     {
-		input = 0;
-        input = inpHandler.GetInput();
+		// If the Player reach the objective, we increment Difficulty
+		if (_mPuntuation == OBJECTIVE)
+		{
+#ifdef DEBUG
+			printf("GAME_FLOW :: Level Ended \n ");
+#endif
+			SetDificultyGrade(_mDificultyGrade + DIFFICULTY_UNIT);
+			SetPuntuation(0);
+		}
+
+		// Check _mDifficulty because, when some level is reached, the timer not work
+		currentTime = inpHandler.GetTicks();
+		if (currentTime > (lastTime + (1000 - _mDificultyGrade)))
+		{
+			input = InputHandlerInterface::KEY_ARROW_DOWN;
+			lastTime = currentTime;
+			SetPuntuation(_mPuntuation + PUNTUATION_UNIT);
+		}
+		else
+		{
+			input = inpHandler.GetInput();
+		}
+
 		switch (input)
 		{
 		case InputHandlerInterface::KEY_SPACE:

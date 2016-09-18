@@ -7,6 +7,7 @@ public:
     virtual ~InputHandlerInterface() {};
     virtual bool IsInputSdlEnabled() = 0;
     virtual signed int GetInput() = 0;
+	virtual unsigned int GetTicks() = 0;
 
     enum GAME_KEY_INPUTS {
         KEY_ARROW_UP = 1,
