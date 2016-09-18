@@ -26,7 +26,7 @@ GraphicSdlImp::~GraphicSdlImp()
 
     if (_mSurface != nullptr)
     {
-        SDL_FreeSurface(_mSurface);
+//        SDL_FreeSurface(_mSurface);
     }
 
     if (_mSquare != nullptr)

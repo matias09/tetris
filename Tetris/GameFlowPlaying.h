@@ -14,11 +14,13 @@ public:
     virtual void Pause();
     virtual void Exit();
     virtual bool _ThereIsCollision();
+    virtual bool _IsOutOfRange();
 private:
 	void _ExecuteShapeDown();
 	void _ExecuteShapeRight();
 	void _ExecuteShapeLeft();
 	void _ExecuteShapeRotate();
+	virtual void _ResetShapePtr();
     Shape* _GetRandomShape();
 
     Shape* _mShape;

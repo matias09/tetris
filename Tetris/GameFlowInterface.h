@@ -12,6 +12,8 @@ public:
     virtual void Pause() = 0;
     virtual void Exit() = 0;
     virtual bool _ThereIsCollision() = 0;
+	virtual bool _IsOutOfRange() = 0;
+	virtual void _ResetShapePtr() = 0;
 
     const int COORDINATE_ELEMENTS = 2;
     const int X_COORDINATE = 0;

@@ -9,6 +9,21 @@ IShape::IShape()
     }
 }
 
+IShape::~IShape()
+{
+   if (_mMatrix != nullptr)
+   {
+       for (int i = 0; i < SHAPE_DIMENSION; ++i)
+       {
+           delete[] _mMatrix[i];
+           _mMatrix[i] = nullptr;
+       } 
+
+	   delete[] _mMatrix;
+       _mMatrix = nullptr;
+   }
+}
+
 bool** IShape::Create()
 {
     for (int i = 0; i < SHAPE_DIMENSION; i++)

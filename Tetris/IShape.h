@@ -7,7 +7,7 @@ class IShape : public Shape
 {
 public:
     IShape();
-    virtual ~IShape() {};
+    virtual ~IShape();
     virtual bool** Create();
     virtual void Rotate();
     virtual void MoveDown(signed int position[], const int coordinate);
