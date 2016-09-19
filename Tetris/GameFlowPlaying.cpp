@@ -48,6 +48,8 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
 	unsigned int lastTime = 0;
 	signed int input = 0;
 
+	_mHigestRowMod = _mBoard->GetRows();
+
     do
     {
 		// If the Player reach the objective, we increment Difficulty
@@ -201,7 +203,7 @@ bool GameFlowPlaying::_IsBottomOrDownShapeCollision()
 				|| boardMatrix[lastShapeRow][xActualPos] == 1
 			) {
 				collision = true;
-				if (_mHigestRowMod < _mPosFrom[Y_COORDINATE])
+				if (_mPosFrom[Y_COORDINATE] < _mHigestRowMod)
 				{
 					_mHigestRowMod = _mPosFrom[Y_COORDINATE];
 				}
@@ -261,7 +263,7 @@ void GameFlowPlaying::_DownGradeRestOfRows(unsigned int beginningRow)
 	bool** boardMatrix = _mBoard->GetBoardMatrix();
 	int i = boardRows - 1;
 	int k = beginningRow;
-	int rowsToUpdateCount = boardRows - _mHigestRowMod;
+	int rowsToUpdateCount = beginningRow - _mHigestRowMod;
 	int iterationCount = 0;
 
 	for (; iterationCount <= rowsToUpdateCount; iterationCount++, i--, k--)
