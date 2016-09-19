@@ -62,7 +62,9 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
 
 		// Check _mDifficulty because, when some level is reached, the timer not work
 		currentTime = inpHandler.GetTicks();
-		if (currentTime > (lastTime + (1000 - _mDificultyGrade)))
+		// Fix
+		//if (currentTime > (lastTime + (1000 - _mDificultyGrade)))
+		if (currentTime > (lastTime + 1000))
 		{
 			input = InputHandlerInterface::KEY_ARROW_DOWN;
 			lastTime = currentTime;
@@ -101,21 +103,24 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
 		if (needOfOtherShape == true)
 		{
 			needOfOtherShape = false;
+			_CheckRowsFilled();
 			_mShape = _GetRandomShape();
-			continue;
-		}
-
-		if (thereIsCollision == false)
-		{
-			_mBoard->UpdateFigureInBoard(_mShape->GetMatrix(), _mPosFrom, _mPosTo, _mShape->GetColumns(), _mShape->GetRows());
-			_mPosFrom[X_COORDINATE] = _mPosTo[X_COORDINATE];
-			_mPosFrom[Y_COORDINATE] = _mPosTo[Y_COORDINATE];
-			grpHandler.Render(_mBoard->GetBoardMatrix(), _mBoard->GetColumns(), _mBoard->GetRows(), _mShape->GetColorMod());
 		}
 		else
 		{
-			thereIsCollision = false;
+			if (thereIsCollision == false)
+			{
+				_mBoard->UpdateFigureInBoard(_mShape->GetMatrix(), _mPosFrom, _mPosTo, _mShape->GetColumns(), _mShape->GetRows());
+				_mPosFrom[X_COORDINATE] = _mPosTo[X_COORDINATE];
+				_mPosFrom[Y_COORDINATE] = _mPosTo[Y_COORDINATE];
+			}
+			else
+			{
+				thereIsCollision = false;
+			}
 		}
+
+		grpHandler.Render(_mBoard->GetBoardMatrix(), _mBoard->GetColumns(), _mBoard->GetRows(), _mShape->GetColorMod());
 
     } while (exitGameFlowPlaying != GAME_STATES::EXIT_GAME);
 
@@ -166,10 +171,10 @@ bool GameFlowPlaying::_ThereIsCollision()
 			xActualPos++;
 		}
 
-		// Esto va corriendo la posicion en Y
+		// This is increasing Y Axis
 		yActualPos++;
 
-		// Reseteo X para que comience from el begin of la row
+		// Reset X Axis for start at the beginning of the Row 
         xActualPos = _mPosTo[X_COORDINATE];
     }
     return collision;
@@ -196,11 +201,77 @@ bool GameFlowPlaying::_IsBottomOrDownShapeCollision()
 				|| boardMatrix[lastShapeRow][xActualPos] == 1
 			) {
 				collision = true;
+				if (_mHigestRowMod < _mPosFrom[Y_COORDINATE])
+				{
+					_mHigestRowMod = _mPosFrom[Y_COORDINATE];
+				}
 				break;
 			}
 		}
     }
 	return collision;
+}
+
+void GameFlowPlaying::_CheckRowsFilled()
+{
+	unsigned short int rowBlocksFilled = 0;
+	int boardColumns = _mBoard->GetColumns();
+	int boardRows = _mBoard->GetRows();
+	bool** boardMatrix = _mBoard->GetBoardMatrix();
+	bool rowDeleted = false;
+	int i = boardRows - 1;
+	int firstUnfufilledRow = _mHigestRowMod - 1;
+
+	for (; i >= firstUnfufilledRow; i--)
+	{
+		for (int j = 0; j < boardColumns; j++)
+		{
+			if (boardMatrix[i][j] == 0)
+			{
+				if (rowDeleted == true)
+				{
+					_DownGradeRestOfRows(i);
+				}
+				i = firstUnfufilledRow;
+				break;
+			}
+			else
+			{
+				rowBlocksFilled++;
+			}
+		}
+
+		if (rowBlocksFilled == boardColumns)
+		{
+			for (int j = 0; j < boardColumns; j++)
+			{
+				boardMatrix[i][j] = 0;
+			}
+			rowDeleted = true;
+		}
+		rowBlocksFilled = 0;
+    }
+}
+
+void GameFlowPlaying::_DownGradeRestOfRows(unsigned int beginningRow)
+{
+	unsigned short int rowBlocksEmpty = 0;
+	int boardColumns = _mBoard->GetColumns();
+	int boardRows = _mBoard->GetRows();
+	bool** boardMatrix = _mBoard->GetBoardMatrix();
+	int i = boardRows - 1;
+	int k = beginningRow;
+	int rowsToUpdateCount = boardRows - _mHigestRowMod;
+	int iterationCount = 0;
+
+	for (; iterationCount <= rowsToUpdateCount; iterationCount++, i--, k--)
+	{
+		for (int j = 0; j < boardColumns; j++)
+		{
+			boardMatrix[i][j] = boardMatrix[k][j];
+			boardMatrix[k][j] = 0;
+		}
+	}
 }
 
 void GameFlowPlaying::_ResetShapePtr()
