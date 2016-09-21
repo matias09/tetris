@@ -13,7 +13,7 @@ public:
     virtual signed int Run(InputHandlerInterface& inpHandler, GraphicHandlerInterface& grpHandler);
     virtual void Pause();
     virtual void Exit();
-    virtual bool _ThereIsCollision();
+    virtual bool _ThereIsCollision(bool rightDirection);
 	virtual bool _IsBottomOrDownShapeCollision();
 
 	// Set

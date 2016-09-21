@@ -11,7 +11,7 @@ public:
     virtual signed int Run(InputHandlerInterface& inpHandler, GraphicHandlerInterface& grpHandler) = 0;
     virtual void Pause() = 0;
     virtual void Exit() = 0;
-    virtual bool _ThereIsCollision() = 0;
+    virtual bool _ThereIsCollision(bool rightDirection) = 0;
 	virtual void _ResetShapePtr() = 0;
 	virtual bool _IsBottomOrDownShapeCollision() = 0;
 

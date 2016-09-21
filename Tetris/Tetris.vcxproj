@@ -126,8 +126,14 @@
     <ClCompile Include="GraphicSdlImp.cpp" />
     <ClCompile Include="InputHandlerFactory.cpp" />
     <ClCompile Include="InputSdlImp.cpp" />
-    <ClCompile Include="IShape.cpp" />
+    <ClCompile Include="JShape.cpp" />
+    <ClCompile Include="LineShape.cpp" />
+    <ClCompile Include="LShape.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="SquareShape.cpp" />
+    <ClCompile Include="SShape.cpp" />
+    <ClCompile Include="TShape.cpp" />
+    <ClCompile Include="ZShape.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
@@ -143,8 +149,14 @@
     <ClInclude Include="InputHandlerFactory.h" />
     <ClInclude Include="InputHandlerInterface.h" />
     <ClInclude Include="InputSdlImp.h" />
-    <ClInclude Include="IShape.h" />
+    <ClInclude Include="JShape.h" />
+    <ClInclude Include="LineShape.h" />
+    <ClInclude Include="LShape.h" />
     <ClInclude Include="Shape.h" />
+    <ClInclude Include="SquareShape.h" />
+    <ClInclude Include="SShape.h" />
+    <ClInclude Include="TShape.h" />
+    <ClInclude Include="ZShape.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
