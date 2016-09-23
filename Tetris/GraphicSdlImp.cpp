@@ -76,8 +76,10 @@ void GraphicSdlImp::CreateWindow()
 {
     _mWindow = SDL_CreateWindow(
         WINDOW_TITLE, 
-        SDL_WINDOWPOS_UNDEFINED, 
-        SDL_WINDOWPOS_UNDEFINED, 
+        //SDL_WINDOWPOS_UNDEFINED, 
+        //SDL_WINDOWPOS_UNDEFINED, 
+		1300,
+		300,
         SCREEN_WIDTH, 
         SCREEN_HEIGHT, 
         SDL_WINDOW_SHOWN 

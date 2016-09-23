@@ -112,6 +112,10 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
 
         if (needOfOtherShape == true)
         {
+            if (_mPosFrom[Y_COORDINATE] < _mHigestRowMod)
+            {
+                _mHigestRowMod = _mPosFrom[Y_COORDINATE];
+            }
             needOfOtherShape = false;
             _CheckRowsFilled();
             _mShape = _GetRandomShape();
@@ -123,7 +127,7 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
                 _mBoard->UpdateFigureInBoard(_mShape->GetMatrix(), _mPosFrom, _mPosTo, _mShape->GetColumns(), _mShape->GetRows());
                 _mPosFrom[X_COORDINATE] = _mPosTo[X_COORDINATE];
                 _mPosFrom[Y_COORDINATE] = _mPosTo[Y_COORDINATE];
-				grpHandler.Render(_mBoard->GetBoardMatrix(), _mBoard->GetColumns(), _mBoard->GetRows(), _mShape->GetColorMod());
+                grpHandler.Render(_mBoard->GetBoardMatrix(), _mBoard->GetColumns(), _mBoard->GetRows(), _mShape->GetColorMod());
             }
             else
             {
@@ -145,39 +149,39 @@ void GameFlowPlaying::Exit()
 
 Shape* GameFlowPlaying::_GetRandomShape()
 {
-	unsigned short int randomShape = 0;
+    unsigned short int randomShape = 0;
     Shape* shape;
     _ResetShapePtr();
 
-	srand(time(NULL));
-	randomShape = rand() % 7;
+    srand(time(NULL));
+    randomShape = rand() % 7;
 
-	switch (randomShape)
-	{
-	case 0:
-		shape = new ZShape();
-		break;
-	case 1:
-		shape = new LineShape();
-		break;
-	case 2:
-		shape = new SquareShape();
-		break;
-	case 3:
-		shape = new LShape();
-		break;
-	case 4:
-		shape = new JShape();
-		break;
-	case 5:
-		shape = new SShape();
-		break;
-	case 6:
-		shape = new TShape();
-		break;
-	default:
-		shape = new SquareShape();
-	}
+    switch (randomShape)
+    {
+    case 0:
+        shape = new ZShape();
+        break;
+    case 1:
+        shape = new LineShape();
+        break;
+    case 2:
+        shape = new SquareShape();
+        break;
+    case 3:
+        shape = new LShape();
+        break;
+    case 4:
+        shape = new JShape();
+        break;
+    case 5:
+        shape = new SShape();
+        break;
+    case 6:
+        shape = new TShape();
+        break;
+    default:
+        shape = new SquareShape();
+    }
     shape->Create();
     return shape;
 }
@@ -188,78 +192,106 @@ bool GameFlowPlaying::_ThereIsCollision(bool rightDirection)
     signed int xActualPos = _mPosTo[X_COORDINATE];
     signed int yActualPos = _mPosTo[Y_COORDINATE];
     int boardColumns = _mBoard->GetColumns();
-	int shapeColumns = _mShape->GetColumns();
+    int shapeColumns = _mShape->GetColumns();
 
-	if ((xActualPos != -1 && (xActualPos + shapeColumns) != boardColumns + 1))
-	{
-		int boardRows = _mBoard->GetRows();
-		int directionToCheck = (rightDirection == true) ? _mPosTo[X_COORDINATE] + shapeColumns : _mPosTo[X_COORDINATE] - 1;
-		int shapeRows = _mShape->GetRows();
-		bool** shapeMatrix = _mShape->GetMatrix();
-		bool** boardMatrix = _mBoard->GetBoardMatrix();
+    int directionToCheck = (rightDirection == true) ? (_mPosTo[X_COORDINATE] + shapeColumns) - 1 : _mPosTo[X_COORDINATE];
 
-		for (int i = 0; i < shapeRows && collision == false; i++)
-		{
-			for (int j = 0; j < shapeColumns; j++)
-			{
-				if (shapeMatrix[i][j] == 1)
-				{
-					if (boardMatrix[yActualPos][directionToCheck] == 1)
-					{
-						_mPosTo[X_COORDINATE] = _mPosFrom[X_COORDINATE];
-						_mPosTo[Y_COORDINATE] = _mPosFrom[Y_COORDINATE];
-						collision = true;
-						break;
-					}
-				}
-				xActualPos++;
-			}
+    if ((xActualPos != -1 && (xActualPos + shapeColumns) != boardColumns + 1))
+    {
+        int boardRows = _mBoard->GetRows();
+        int shapeRows = _mShape->GetRows();
+        bool** shapeMatrix = _mShape->GetMatrix();
+        bool** boardMatrix = _mBoard->GetBoardMatrix();
 
-			// This is increasing Y Axis
-			yActualPos++;
+        for (int i = 0; i < shapeRows && collision == false; i++)
+        {
+            for (int j = 0; j < shapeColumns; j++)
+            {
+                if (shapeMatrix[i][j] == 1)
+                {
+                    if (boardMatrix[yActualPos][directionToCheck] == 1)
+                    {
+                        _mPosTo[X_COORDINATE] = _mPosFrom[X_COORDINATE];
+                        _mPosTo[Y_COORDINATE] = _mPosFrom[Y_COORDINATE];
+                        collision = true;
+                        break;
+                    }
+                }
+            }
 
-			// Reset X Axis for start at the beginning of the Row 
-			xActualPos = _mPosTo[X_COORDINATE];
-		}
-	}
-	else
-	{
-		_mPosTo[X_COORDINATE] = _mPosFrom[X_COORDINATE];
-		_mPosTo[Y_COORDINATE] = _mPosFrom[Y_COORDINATE];
-		collision = true;
-	}
+            // This is increasing Y Axis
+            yActualPos++;
+        }
+    }
+    else
+    {
+        _mPosTo[X_COORDINATE] = _mPosFrom[X_COORDINATE];
+        _mPosTo[Y_COORDINATE] = _mPosFrom[Y_COORDINATE];
+        collision = true;
+    }
 
     return collision;
 }
 
 bool GameFlowPlaying::_IsBottomOrDownShapeCollision()
 {
-    bool collision = false;
-    signed int xActualPos = _mPosTo[X_COORDINATE];
-    signed int yActualPos = _mPosTo[Y_COORDINATE];
-    int boardColumns = _mBoard->GetColumns();
-    int boardRows = _mBoard->GetRows();
-    int shapeColumns = _mShape->GetColumns();
-    int shapeRows = _mShape->GetRows();
-    int lastShapeRow = yActualPos + (shapeRows - 1);
-    bool** shapeMatrix = _mShape->GetMatrix();
-    bool** boardMatrix = _mBoard->GetBoardMatrix();
+	bool collision = false;
+	int boardRows = _mBoard->GetRows();
 
-    for (int j = 0; j < shapeColumns && collision == false; j++)
+	signed int xActualFrom = _mPosFrom[X_COORDINATE];
+	signed int yActualFrom = _mPosFrom[Y_COORDINATE];
+	signed int xActualPos = _mPosTo[X_COORDINATE];
+	signed int yActualPos = _mPosTo[Y_COORDINATE];
+
+	int boardColumns = _mBoard->GetColumns();
+	int shapeColumns = _mShape->GetColumns();
+	int shapeRows = _mShape->GetRows();
+
+	const short int FIRST_ROW = 0;
+	const short int LAST_ROW = yActualPos + shapeRows - 1;
+
+	if (LAST_ROW != boardRows)
     {
-        if (shapeMatrix[shapeRows - 1][j] == 1)
+        bool** shapeMatrix = _mShape->GetMatrix();
+        bool** boardMatrix = _mBoard->GetBoardMatrix();
+
+        for (int i = 0; i < shapeRows && collision == false; i++)
         {
-            if (lastShapeRow == boardRows
-                || boardMatrix[lastShapeRow][xActualPos] == 1
-            ) {
-                collision = true;
-                if (_mPosFrom[Y_COORDINATE] < _mHigestRowMod)
+            for (int j = 0; j < shapeColumns; j++)
+            {
+                if (shapeMatrix[i][j] == 1)
                 {
-                    _mHigestRowMod = _mPosFrom[Y_COORDINATE];
+                    if (boardMatrix[LAST_ROW][xActualPos] == 1
+						&& boardMatrix[yActualPos][xActualPos] == 1)
+                    {
+                        collision = true;
+                        break;
+                    }
+
+                    if ((boardMatrix[yActualPos][xActualPos] == 1 && boardMatrix[yActualFrom][xActualFrom] == 0))
+                    {
+                        collision = true;
+                        break;
+                    }
                 }
-                break;
+
+                // Increment X Axis or change to the next column Shape
+                xActualFrom++;
+                xActualPos++;
             }
+
+            // Increment Y Axis or change to the next column Shape
+            yActualFrom++;
+            yActualPos++;
+
+            // Increment X Axis or change to the next column Shape
+            xActualFrom = _mPosFrom[X_COORDINATE];
+            xActualPos = _mPosTo[X_COORDINATE];
         }
+    }
+    else
+    {
+        collision = true;
     }
     return collision;
 }
