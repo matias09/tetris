@@ -194,7 +194,20 @@ bool GameFlowPlaying::_ThereIsCollision(bool rightDirection)
     int boardColumns = _mBoard->GetColumns();
     int shapeColumns = _mShape->GetColumns();
 
-    int directionToCheck = (rightDirection == true) ? (_mPosTo[X_COORDINATE] + shapeColumns) - 1 : _mPosTo[X_COORDINATE];
+    //int directionToCheck = (rightDirection == true) ? (_mPosTo[X_COORDINATE] + shapeColumns) - 1 : _mPosTo[X_COORDINATE];
+	int directionToCheck;
+	int columnToCheck;
+
+    if (rightDirection == true)
+    {
+		directionToCheck = (_mPosTo[X_COORDINATE] + shapeColumns) - 1;
+		columnToCheck = shapeColumns - 1;
+    }
+	else
+	{
+		directionToCheck = _mPosTo[X_COORDINATE];
+		columnToCheck = 0;
+	}
 
     if ((xActualPos != -1 && (xActualPos + shapeColumns) != boardColumns + 1))
     {
@@ -209,7 +222,7 @@ bool GameFlowPlaying::_ThereIsCollision(bool rightDirection)
             {
                 if (shapeMatrix[i][j] == 1)
                 {
-                    if (boardMatrix[yActualPos][directionToCheck] == 1)
+                    if (boardMatrix[yActualPos][directionToCheck] == 1 && shapeMatrix[i][columnToCheck] == 1)
                     {
                         _mPosTo[X_COORDINATE] = _mPosFrom[X_COORDINATE];
                         _mPosTo[Y_COORDINATE] = _mPosFrom[Y_COORDINATE];
