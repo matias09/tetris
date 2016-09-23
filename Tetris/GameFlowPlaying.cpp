@@ -235,22 +235,22 @@ bool GameFlowPlaying::_ThereIsCollision(bool rightDirection)
 
 bool GameFlowPlaying::_IsBottomOrDownShapeCollision()
 {
-	bool collision = false;
-	int boardRows = _mBoard->GetRows();
+    bool collision = false;
+    int boardRows = _mBoard->GetRows();
 
-	signed int xActualFrom = _mPosFrom[X_COORDINATE];
-	signed int yActualFrom = _mPosFrom[Y_COORDINATE];
-	signed int xActualPos = _mPosTo[X_COORDINATE];
-	signed int yActualPos = _mPosTo[Y_COORDINATE];
+    signed int xActualFrom = _mPosFrom[X_COORDINATE];
+    signed int yActualFrom = _mPosFrom[Y_COORDINATE];
+    signed int xActualPos = _mPosTo[X_COORDINATE];
+    signed int yActualPos = _mPosTo[Y_COORDINATE];
 
-	int boardColumns = _mBoard->GetColumns();
-	int shapeColumns = _mShape->GetColumns();
-	int shapeRows = _mShape->GetRows();
+    int boardColumns = _mBoard->GetColumns();
+    int shapeColumns = _mShape->GetColumns();
+    int shapeRows = _mShape->GetRows();
 
-	const short int FIRST_ROW = 0;
-	const short int LAST_ROW = yActualPos + shapeRows - 1;
+    const short int FIRST_ROW = 0;
+    const short int LAST_ROW = yActualPos + shapeRows - 1;
 
-	if (LAST_ROW != boardRows)
+    if (LAST_ROW != boardRows)
     {
         bool** shapeMatrix = _mShape->GetMatrix();
         bool** boardMatrix = _mBoard->GetBoardMatrix();
@@ -261,14 +261,8 @@ bool GameFlowPlaying::_IsBottomOrDownShapeCollision()
             {
                 if (shapeMatrix[i][j] == 1)
                 {
-                    if (boardMatrix[LAST_ROW][xActualPos] == 1
-						&& boardMatrix[yActualPos][xActualPos] == 1)
-                    {
-                        collision = true;
-                        break;
-                    }
-
-                    if ((boardMatrix[yActualPos][xActualPos] == 1 && boardMatrix[yActualFrom][xActualFrom] == 0))
+                    if ((boardMatrix[LAST_ROW][xActualPos] == 1 && boardMatrix[yActualPos][xActualPos] == 1)
+						|| (boardMatrix[yActualPos][xActualPos] == 1 && boardMatrix[yActualFrom][xActualFrom] == 0))
                     {
                         collision = true;
                         break;
