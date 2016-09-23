@@ -45,9 +45,6 @@
     <ClCompile Include="LineShape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LShape.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SquareShape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -58,6 +55,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ZShape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LShape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

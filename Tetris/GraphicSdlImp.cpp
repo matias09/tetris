@@ -41,7 +41,7 @@ bool GraphicSdlImp::IsGraphicSdlEnabled()
     return _mIsGraphicEnable;
 }
 
-void GraphicSdlImp::Render(bool** matrix, const int columns, const int rows, int colorMod)
+void GraphicSdlImp::Render(bool** matrix, const int columns, const int rows, const int redVal, const int greenVal, const int blueVal)
 {
    int xSeparation = 0;
    int ySeparation = 0;
@@ -57,7 +57,7 @@ void GraphicSdlImp::Render(bool** matrix, const int columns, const int rows, int
                 
             if (matrix[i][j] == CHANGE_COLOR_MARK)
             {
-               SDL_FillRect(_mSurface, _mSquare, SDL_MapRGB(_mSurface->format, DEFAULT_HEX_RED_VALUE + colorMod, DEFAULT_HEX_GREEN_VALUE + colorMod, DEFAULT_HEX_BLUE_VALUE + colorMod)); 
+               SDL_FillRect(_mSurface, _mSquare, SDL_MapRGB(_mSurface->format, redVal, greenVal, blueVal)); 
             }
             else
             {

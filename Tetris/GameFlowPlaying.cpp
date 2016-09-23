@@ -127,7 +127,7 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
                 _mBoard->UpdateFigureInBoard(_mShape->GetMatrix(), _mPosFrom, _mPosTo, _mShape->GetColumns(), _mShape->GetRows());
                 _mPosFrom[X_COORDINATE] = _mPosTo[X_COORDINATE];
                 _mPosFrom[Y_COORDINATE] = _mPosTo[Y_COORDINATE];
-                grpHandler.Render(_mBoard->GetBoardMatrix(), _mBoard->GetColumns(), _mBoard->GetRows(), _mShape->GetColorMod());
+                grpHandler.Render(_mBoard->GetBoardMatrix(), _mBoard->GetColumns(), _mBoard->GetRows(), _mShape->GetRedVal(), _mShape->GetGreenVal(), _mShape->GetBlueVal());
             }
             else
             {
@@ -201,6 +201,8 @@ bool GameFlowPlaying::_ThereIsCollision(bool rightDirection)
     if (rightDirection == true)
     {
 		directionToCheck = (_mPosTo[X_COORDINATE] + shapeColumns) - 1;
+
+		// Check this Change, because not word correctly with S Shape
 		columnToCheck = shapeColumns - 1;
     }
 	else

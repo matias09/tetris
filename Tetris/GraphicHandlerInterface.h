@@ -6,7 +6,7 @@ class GraphicHandlerInterface
 public:
     virtual ~GraphicHandlerInterface() {};
     virtual bool IsGraphicSdlEnabled() = 0;
-    virtual void Render(bool** matrix, const int columns, const int rows, int colorMod = 0) = 0;
+    virtual void Render(bool** matrix, const int columns, const int rows, const int redVal, const int greenVal, const int blueVal) = 0;
     virtual void CreateWindow() = 0;
 protected:
     const bool CHANGE_COLOR_MARK = 1;

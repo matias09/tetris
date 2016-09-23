@@ -11,7 +11,9 @@ public:
 	// Get
 	virtual unsigned short int GetColumns() = 0;
     virtual unsigned short int GetRows() = 0;
-    virtual const int GetColorMod() = 0;
+    virtual const int GetRedVal() = 0;
+    virtual const int GetGreenVal() = 0;
+    virtual const int GetBlueVal()  = 0;
     virtual bool** GetMatrix() = 0;
 
 	// Set
