@@ -7,6 +7,8 @@ LineShape::LineShape()
     {
         _mMatrix[i] = new bool[SHAPE_DIMENSION];
     }
+
+	_mRotateTo = 2;
 }
 
 LineShape::~LineShape()
@@ -26,20 +28,50 @@ LineShape::~LineShape()
 
 bool** LineShape::Create()
 {
-	unsigned short int columns = 1;
-	unsigned short int rows = 4;
-
-	for (unsigned short int i = 0; i < rows; i++)
-	{
-		_mMatrix[i][0] = 1;
-	}
-
-	SetColumns(columns);
-	SetRows(rows);
-
+    _RotateToUp();
     return _mMatrix;
 }
 
 void LineShape::Rotate()
 {
+    switch (_mRotateTo)
+    {
+    case 1:
+        _RotateToUp();
+    break;
+    case 2:
+        _mRotateTo = 0;
+        _RotateToLeft();
+    break;
+    }
+
+    _mRotateTo++;
+}
+
+void LineShape::_RotateToUp()
+{
+	_mRows = 4;
+	_mColumns = 1;
+
+	for (unsigned short int i = 0; i < _mRows; i++)
+	{
+		_mMatrix[i][0] = 1;
+	}
+
+	SetColumns(_mColumns);
+	SetRows(_mRows);
+}
+
+void LineShape::_RotateToLeft()
+{
+	_mRows = 1;
+	_mColumns = 4;
+
+	for (unsigned short int j = 0; j < _mRows; j++)
+	{
+		_mMatrix[0][j] = 1;
+	}
+
+	SetColumns(_mColumns);
+	SetRows(_mRows);
 }

@@ -88,7 +88,7 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
         switch (input)
         {
         case InputHandlerInterface::KEY_SPACE:
-            _ExecuteShapeRotate();
+            //_ExecuteShapeRotate();
             break;
         case InputHandlerInterface::KEY_ARROW_DOWN:
             _ExecuteShapeDown();
@@ -162,19 +162,24 @@ Shape* GameFlowPlaying::_GetRandomShape()
         shape = new ZShape();
         break;
     case 1:
-        shape = new LineShape();
+        //shape = new ZShape();
+        shape = new SShape();
         break;
     case 2:
+        //shape = new ZShape();
+        //shape = new SShape();
         shape = new SquareShape();
         break;
     case 3:
         shape = new LShape();
         break;
     case 4:
+        //shape = new ZShape();
         shape = new JShape();
         break;
     case 5:
-        shape = new SShape();
+        //shape = new ZShape();
+        shape = new LineShape();
         break;
     case 6:
         shape = new TShape();
@@ -189,42 +194,64 @@ Shape* GameFlowPlaying::_GetRandomShape()
 bool GameFlowPlaying::_ThereIsCollision(bool rightDirection)
 {
     bool collision = false;
-    signed int xActualPos = _mPosTo[X_COORDINATE];
-    signed int yActualPos = _mPosTo[Y_COORDINATE];
+    signed int xActualPos;
+    signed int cpyXActualPos;
+
+    signed int yActualPos;
+    signed int cpyYActualPos;
+
     int boardColumns = _mBoard->GetColumns();
+
+	int shapeRows = _mShape->GetRows();
     int shapeColumns = _mShape->GetColumns();
 
-    //int directionToCheck = (rightDirection == true) ? (_mPosTo[X_COORDINATE] + shapeColumns) - 1 : _mPosTo[X_COORDINATE];
-	int directionToCheck;
-	int columnToCheck;
+	int iStartPoint;
+	int iLimit;
+
+	int jStartPoint;
+	int jLimit;
+
+	signed short int incrementAmount;
+	signed int moveXPos = 0;
 
     if (rightDirection == true)
     {
-		directionToCheck = (_mPosTo[X_COORDINATE] + shapeColumns) - 1;
-
-		// Check this Change, because not word correctly with S Shape
-		columnToCheck = shapeColumns - 1;
+		moveXPos = -1;
+		iStartPoint = shapeRows - 1;
+		iLimit = -1;
+		jStartPoint = shapeColumns - 1;
+		jLimit = -1;
+		incrementAmount = -1;
+		cpyXActualPos = _mPosTo[X_COORDINATE] + (shapeColumns - 1);
+		cpyYActualPos = _mPosTo[Y_COORDINATE] + (shapeRows - 1);
     }
 	else
 	{
-		directionToCheck = _mPosTo[X_COORDINATE];
-		columnToCheck = 0;
+		moveXPos = 1;
+		iStartPoint = 0;
+		iLimit = shapeRows;
+		jStartPoint = 0;
+		jLimit = shapeColumns;
+		incrementAmount = 1;
+		cpyXActualPos = _mPosTo[X_COORDINATE];
+		cpyYActualPos = _mPosTo[Y_COORDINATE];
 	}
 
-    if ((xActualPos != -1 && (xActualPos + shapeColumns) != boardColumns + 1))
+	xActualPos = cpyXActualPos;
+	yActualPos = cpyYActualPos;
+
+    if (xActualPos != -1 && xActualPos != boardColumns)
     {
-        int boardRows = _mBoard->GetRows();
-        int shapeRows = _mShape->GetRows();
         bool** shapeMatrix = _mShape->GetMatrix();
         bool** boardMatrix = _mBoard->GetBoardMatrix();
 
-        for (int i = 0; i < shapeRows && collision == false; i++)
+        for (int i = iStartPoint; i != iLimit && collision == false; i += incrementAmount)
         {
-            for (int j = 0; j < shapeColumns; j++)
+            for (int j = jStartPoint; j != jLimit; j += incrementAmount)
             {
                 if (shapeMatrix[i][j] == 1)
                 {
-                    if (boardMatrix[yActualPos][directionToCheck] == 1 && shapeMatrix[i][columnToCheck] == 1)
+                    if (boardMatrix[yActualPos][xActualPos] == 1)
                     {
                         _mPosTo[X_COORDINATE] = _mPosFrom[X_COORDINATE];
                         _mPosTo[Y_COORDINATE] = _mPosFrom[Y_COORDINATE];
@@ -232,10 +259,17 @@ bool GameFlowPlaying::_ThereIsCollision(bool rightDirection)
                         break;
                     }
                 }
+				else
+				{
+					xActualPos = xActualPos + moveXPos;
+				}
             }
 
             // This is increasing Y Axis
-            yActualPos++;
+            yActualPos = yActualPos + incrementAmount;
+
+            // Reset X Axis
+            xActualPos = cpyXActualPos;
         }
     }
     else
@@ -305,6 +339,49 @@ bool GameFlowPlaying::_IsBottomOrDownShapeCollision()
     return collision;
 }
 
+void GameFlowPlaying::_ResetShapePtr()
+{
+    delete _mShape;
+
+    _mPosFrom[X_COORDINATE] = 4;
+    _mPosFrom[Y_COORDINATE] = 0;
+
+    _mPosTo[X_COORDINATE] = 4;
+    _mPosTo[Y_COORDINATE] = 0;
+}
+
+void GameFlowPlaying::_ExecuteShapeRotate()
+{
+#ifdef DEBUG
+    printf("GAME_FLOW :: SHAPE ROTATE \n ");
+#endif DEBUG
+	_mShape->Rotate();
+}
+
+void GameFlowPlaying::_ExecuteShapeDown()
+{
+#ifdef DEBUG
+    printf("GAME_FLOW :: SHAPE DOWN \n ");
+#endif DEBUG
+    ++_mPosTo[Y_COORDINATE];
+}
+
+void GameFlowPlaying::_ExecuteShapeRight()
+{
+#ifdef DEBUG
+    printf("GAME_FLOW :: SHAPE RIGHT \n ");
+#endif DEBUG
+    ++_mPosTo[X_COORDINATE];
+}
+
+void GameFlowPlaying::_ExecuteShapeLeft()
+{
+#ifdef DEBUG
+    printf("GAME_FLOW :: SHAPE LEFT \n ");
+#endif DEBUG
+    --_mPosTo[X_COORDINATE];
+}
+
 void GameFlowPlaying::_CheckRowsFilled()
 {
     unsigned short int rowBlocksFilled = 0;
@@ -365,46 +442,4 @@ void GameFlowPlaying::_DownGradeRestOfRows(unsigned int beginningRow)
             boardMatrix[k][j] = 0;
         }
     }
-}
-
-void GameFlowPlaying::_ResetShapePtr()
-{
-    delete _mShape;
-
-    _mPosFrom[X_COORDINATE] = 4;
-    _mPosFrom[Y_COORDINATE] = 0;
-
-    _mPosTo[X_COORDINATE] = 4;
-    _mPosTo[Y_COORDINATE] = 0;
-}
-
-void GameFlowPlaying::_ExecuteShapeRotate()
-{
-#ifdef DEBUG
-    printf("GAME_FLOW :: SHAPE ROTATE \n ");
-#endif DEBUG
-}
-
-void GameFlowPlaying::_ExecuteShapeDown()
-{
-#ifdef DEBUG
-    printf("GAME_FLOW :: SHAPE DOWN \n ");
-#endif DEBUG
-    ++_mPosTo[Y_COORDINATE];
-}
-
-void GameFlowPlaying::_ExecuteShapeRight()
-{
-#ifdef DEBUG
-    printf("GAME_FLOW :: SHAPE RIGHT \n ");
-#endif DEBUG
-    ++_mPosTo[X_COORDINATE];
-}
-
-void GameFlowPlaying::_ExecuteShapeLeft()
-{
-#ifdef DEBUG
-    printf("GAME_FLOW :: SHAPE LEFT \n ");
-#endif DEBUG
-    --_mPosTo[X_COORDINATE];
 }

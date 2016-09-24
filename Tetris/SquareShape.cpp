@@ -7,6 +7,8 @@ SquareShape::SquareShape()
     {
         _mMatrix[i] = new bool[SHAPE_DIMENSION];
     }
+
+	_mRotateTo = 2;
 }
 
 SquareShape::~SquareShape()
@@ -41,8 +43,4 @@ bool** SquareShape::Create()
 	SetRows(rows);
 
     return _mMatrix;
-}
-
-void SquareShape::Rotate()
-{
 }

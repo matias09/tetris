@@ -57,7 +57,7 @@ void GraphicSdlImp::Render(bool** matrix, const int columns, const int rows, con
                 
             if (matrix[i][j] == CHANGE_COLOR_MARK)
             {
-               SDL_FillRect(_mSurface, _mSquare, SDL_MapRGB(_mSurface->format, redVal, greenVal, blueVal)); 
+               SDL_FillRect(_mSurface, _mSquare, SDL_MapRGB(_mSurface->format, 0x20, 0x80, 0xba)); 
             }
             else
             {
