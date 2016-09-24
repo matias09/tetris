@@ -162,23 +162,18 @@ Shape* GameFlowPlaying::_GetRandomShape()
         shape = new ZShape();
         break;
     case 1:
-        //shape = new ZShape();
         shape = new SShape();
         break;
     case 2:
-        //shape = new ZShape();
-        //shape = new SShape();
         shape = new SquareShape();
         break;
     case 3:
         shape = new LShape();
         break;
     case 4:
-        //shape = new ZShape();
         shape = new JShape();
         break;
     case 5:
-        //shape = new ZShape();
         shape = new LineShape();
         break;
     case 6:
@@ -286,50 +281,48 @@ bool GameFlowPlaying::_IsBottomOrDownShapeCollision()
 {
     bool collision = false;
     int boardRows = _mBoard->GetRows();
-
-    signed int xActualFrom = _mPosFrom[X_COORDINATE];
-    signed int yActualFrom = _mPosFrom[Y_COORDINATE];
-    signed int xActualPos = _mPosTo[X_COORDINATE];
-    signed int yActualPos = _mPosTo[Y_COORDINATE];
-
     int boardColumns = _mBoard->GetColumns();
+
     int shapeColumns = _mShape->GetColumns();
     int shapeRows = _mShape->GetRows();
 
-    const short int FIRST_ROW = 0;
-    const short int LAST_ROW = yActualPos + shapeRows - 1;
+    signed int xActualPos = _mPosTo[X_COORDINATE];
+    signed int yActualPos;
+    signed int cpyYActualPos = _mPosTo[Y_COORDINATE] + (shapeRows - 1);
 
-    if (LAST_ROW != boardRows)
+	signed short int iLimit = shapeRows - 1;
+
+	yActualPos = cpyYActualPos;
+
+    if (yActualPos != boardRows)
     {
         bool** shapeMatrix = _mShape->GetMatrix();
         bool** boardMatrix = _mBoard->GetBoardMatrix();
 
-        for (int i = 0; i < shapeRows && collision == false; i++)
+		for (int j = 0; j < shapeColumns && collision == false; j++)
         {
-            for (int j = 0; j < shapeColumns; j++)
+			for (int i = iLimit; i > -1; i--)
             {
                 if (shapeMatrix[i][j] == 1)
                 {
-                    if ((boardMatrix[LAST_ROW][xActualPos] == 1 && boardMatrix[yActualPos][xActualPos] == 1)
-						|| (boardMatrix[yActualPos][xActualPos] == 1 && boardMatrix[yActualFrom][xActualFrom] == 0))
+                    if (boardMatrix[yActualPos][xActualPos] == 1)
                     {
                         collision = true;
                         break;
                     }
                 }
-
-                // Increment X Axis or change to the next column Shape
-                xActualFrom++;
-                xActualPos++;
+				else
+				{
+					// Increment Y Axis or change to the next column Shape
+					yActualPos--;
+				}
             }
 
-            // Increment Y Axis or change to the next column Shape
-            yActualFrom++;
-            yActualPos++;
+			// Reset Y Axis
+			yActualPos = cpyYActualPos;
 
             // Increment X Axis or change to the next column Shape
-            xActualFrom = _mPosFrom[X_COORDINATE];
-            xActualPos = _mPosTo[X_COORDINATE];
+            xActualPos++;
         }
     }
     else
