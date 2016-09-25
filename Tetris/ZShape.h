@@ -33,8 +33,10 @@ public:
 private:
 	virtual void _RotateToUp();
 	virtual void _RotateToLeft();
-	virtual void _RotateToDown() {}
-	virtual void _RotateToRight() {}
+
+	// Horrifying piece of code that i have to change in the followings commit
+	virtual void _RotateToDown() { _RotateToUp(); }
+	virtual void _RotateToRight() { _RotateToLeft(); }
 };
 
 #endif // !ZSHAPE_H

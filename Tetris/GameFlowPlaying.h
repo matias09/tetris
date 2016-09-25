@@ -17,6 +17,7 @@ public:
 	// Set
 	virtual void SetDificultyGrade(const unsigned int dificulty) { _mDificultyGrade = dificulty; }
 	virtual void SetPuntuation(const unsigned int puntuation) { _mPuntuation = puntuation; }
+	virtual void SetScore(const unsigned int score) { _mScore = score; }
 private:
 	virtual void _ResetShapePtr();
     bool _ThereIsCollision(bool rightDirection);
@@ -32,9 +33,10 @@ private:
     Shape* _GetRandomShape();
 
     const unsigned int SCORE_PER_LEVEL_UNIT = 100;
-    const unsigned int DIFFICULTY_UNIT = 200;
+    const unsigned int CONSTANT_DIFICULTY = 50;
+    const unsigned int DIFFICULTY_UNIT = 100;
     const unsigned int PUNTUATION_UNIT = 1;
-    const unsigned int OBJECTIVE = 10;
+    const unsigned int OBJECTIVE = 5;
     const unsigned short int COORDINATE_ELEMENTS = 2;
     const unsigned short int X_COORDINATE = 0;
     const unsigned short int Y_COORDINATE = 1;

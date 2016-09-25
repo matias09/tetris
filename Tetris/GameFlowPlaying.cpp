@@ -23,7 +23,7 @@ GameFlowPlaying::GameFlowPlaying()
     _mPosTo[X_COORDINATE] = 4;
     _mPosTo[Y_COORDINATE] = 0;
 
-    _mDificultyGrade = 0;
+    _mDificultyGrade = 700;
     _mPuntuation = 0;
 }
 GameFlowPlaying::~GameFlowPlaying()
@@ -61,21 +61,9 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
 
     do
     {
-        // If the Player reach the objective, we increment Difficulty
-        if (_mPuntuation == OBJECTIVE)
-        {
-#ifdef DEBUG
-            printf("GAME_FLOW :: Level Ended \n ");
-#endif
-            SetDificultyGrade(_mDificultyGrade + DIFFICULTY_UNIT);
-            SetPuntuation(0);
-        }
-
         currentTime = inpHandler.GetTicks();
 
-        // Fix : Check _mDifficulty because, when some level is reached, the timer not work
-        //if (currentTime > (lastTime + (1000 - _mDificultyGrade)))
-        if (currentTime > (lastTime + 1000))
+        if (currentTime > (lastTime + CONSTANT_DIFICULTY + _mDificultyGrade))
         {
             input = InputHandlerInterface::KEY_ARROW_DOWN;
             lastTime = currentTime;
@@ -119,9 +107,6 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
             thereIsCollision = _ThereIsCollision(false);
             break;
         case InputHandlerInterface::KEY_SCAPE:
-#ifdef DEBUG
-            printf("GAME_FLOW :: scape \n ");
-#endif
             exitGameFlowPlaying = GAME_STATES::EXIT_GAME;
             break;
         }
@@ -131,6 +116,10 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
             if (_mPosFrom[Y_COORDINATE] < _mHigestRowMod)
             {
                 _mHigestRowMod = _mPosFrom[Y_COORDINATE];
+				if (_mHigestRowMod == 0)
+				{
+					exitGameFlowPlaying = GAME_STATES::EXIT_GAME;
+				}
             }
             needOfOtherShape = false;
             _CheckRowsFilled();
@@ -151,6 +140,21 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
                 thereIsCollision = false;
             }
         }
+
+        // If the Player fill rows, we increment Difficulty
+		if (_mPuntuation > 0)
+		{
+			if (_mDificultyGrade > 200)
+			{
+				SetDificultyGrade(_mDificultyGrade - (DIFFICULTY_UNIT * _mPuntuation));
+			}
+
+			SetScore(_mScore + SCORE_PER_LEVEL_UNIT);
+
+			// If the Player fill rows, we increment Difficulty
+			exitGameFlowPlaying = (_mPuntuation >= OBJECTIVE) ? true : false;
+        }
+
     } while (exitGameFlowPlaying != GAME_STATES::EXIT_GAME);
 
     return exitGameFlowPlaying;
@@ -174,12 +178,10 @@ Shape* GameFlowPlaying::_GetRandomShape()
     switch (randomShape)
     {
     case 0:
-        shape = new LShape();
-        //shape = new ZShape();
+        shape = new ZShape();
         break;
     case 1:
-        shape = new JShape();
-        //shape = new SShape();
+        shape = new SShape();
         break;
     case 2:
         shape = new SquareShape();
@@ -194,8 +196,7 @@ Shape* GameFlowPlaying::_GetRandomShape()
         shape = new LineShape();
         break;
     case 6:
-        shape = new JShape();
-        //shape = new TShape();
+        shape = new TShape();
         break;
     default:
         shape = new SquareShape();
@@ -363,10 +364,6 @@ void GameFlowPlaying::_ResetShapePtr()
 
 void GameFlowPlaying::_ExecuteShapeRotate()
 {
-#ifdef DEBUG
-    printf("GAME_FLOW :: SHAPE ROTATE \n ");
-#endif DEBUG
-
 	// Save Shape actual rotation just in case we have to Roll Back
 	actShpRot = _mShape->GetActualRotation();
 
@@ -410,25 +407,16 @@ void GameFlowPlaying::_RotateShape()
 
 void GameFlowPlaying::_ExecuteShapeDown()
 {
-#ifdef DEBUG
-    printf("GAME_FLOW :: SHAPE DOWN \n ");
-#endif DEBUG
     ++_mPosTo[Y_COORDINATE];
 }
 
 void GameFlowPlaying::_ExecuteShapeRight()
 {
-#ifdef DEBUG
-    printf("GAME_FLOW :: SHAPE RIGHT \n ");
-#endif DEBUG
     ++_mPosTo[X_COORDINATE];
 }
 
 void GameFlowPlaying::_ExecuteShapeLeft()
 {
-#ifdef DEBUG
-    printf("GAME_FLOW :: SHAPE LEFT \n ");
-#endif DEBUG
     --_mPosTo[X_COORDINATE];
 }
 
@@ -462,6 +450,7 @@ void GameFlowPlaying::_CheckRowsFilled()
 			_DownGradeRestOfRows(i);
 
             SetPuntuation(_mPuntuation + PUNTUATION_UNIT);
+
             rowDeleted = true;
 			i++;
         }
