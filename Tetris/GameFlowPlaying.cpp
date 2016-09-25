@@ -89,6 +89,22 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
         {
         case InputHandlerInterface::KEY_SPACE:
             _ExecuteShapeRotate();
+			if (_IsBottomOrDownShapeCollision())
+			{
+				needOfOtherShape = true;
+			} 
+			else if (_ThereIsCollision(true) || _ThereIsCollision(false))
+			{
+				thereIsCollision = true;
+			}
+			
+			if (needOfOtherShape == true || thereIsCollision == true)
+			{
+				_mShape->SetActualRotation(actShpRot);
+
+				// Roll Back shapeMatrix Form
+				_RotateShape();
+			}
             break;
         case InputHandlerInterface::KEY_ARROW_DOWN:
             _ExecuteShapeDown();
@@ -135,8 +151,6 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
                 thereIsCollision = false;
             }
         }
-
-
     } while (exitGameFlowPlaying != GAME_STATES::EXIT_GAME);
 
     return exitGameFlowPlaying;
@@ -351,24 +365,21 @@ void GameFlowPlaying::_ExecuteShapeRotate()
 #endif DEBUG
 
 	// Save Shape actual rotation just in case we have to Roll Back
-	unsigned short int actShpRot = _mShape->GetActualRotation();
+	actShpRot = _mShape->GetActualRotation();
 
 	// Clear actual Shape from the board
 	_mBoard->EraseFigureInBoard(_mShape->GetMatrix(), _mPosFrom, _mShape->GetColumns(), _mShape->GetRows());
+
 	// Change shapeMatrix Form
 	_RotateShape();
 
-	_mBoard->UpdateFigureInBoard(_mShape->GetMatrix(), _mPosFrom, _mShape->GetColumns(), _mShape->GetRows());
-//	_CalculateNewXYPosition();
 	// Calculate _mPostTo using the Rotation Coordinate of the Shape
+//	_CalculateNewXYPosition();
 	// Check if there is no Collision
-
 }
 
 void GameFlowPlaying::_CalculateNewXYPosition()
-{
-	
-}
+{}
 
 void GameFlowPlaying::_RotateShape()
 {

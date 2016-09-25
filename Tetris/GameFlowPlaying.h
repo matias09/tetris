@@ -46,7 +46,9 @@ private:
     unsigned int _mScore;
 	unsigned int _mDificultyGrade;
 	unsigned int _mPuntuation;
+	unsigned short int actShpRot;
 	signed int* _mPosFrom;
 	signed int* _mPosTo;
 };
-#endif
+
+#endif // GAME_FLOW_PLAYING_H
