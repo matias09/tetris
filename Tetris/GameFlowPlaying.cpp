@@ -174,10 +174,12 @@ Shape* GameFlowPlaying::_GetRandomShape()
     switch (randomShape)
     {
     case 0:
-        shape = new ZShape();
+        shape = new LShape();
+        //shape = new ZShape();
         break;
     case 1:
-        shape = new SShape();
+        shape = new JShape();
+        //shape = new SShape();
         break;
     case 2:
         shape = new SquareShape();
@@ -192,7 +194,8 @@ Shape* GameFlowPlaying::_GetRandomShape()
         shape = new LineShape();
         break;
     case 6:
-        shape = new TShape();
+        shape = new JShape();
+        //shape = new TShape();
         break;
     default:
         shape = new SquareShape();
@@ -437,20 +440,13 @@ void GameFlowPlaying::_CheckRowsFilled()
     bool** boardMatrix = _mBoard->GetBoardMatrix();
     bool rowDeleted = false;
     int i = boardRows - 1;
-    int firstUnfufilledRow = _mHigestRowMod - 1;
+    int firstEmptyRow = _mHigestRowMod - 1;
 
-    for (; i >= firstUnfufilledRow; i--)
+    for (; i > firstEmptyRow; i--)
     {
         for (int j = 0; j < boardColumns; j++)
         {
-            if (boardMatrix[i][j] == 0)
-            {
-                if (rowDeleted == true)
-                {
-                    _DownGradeRestOfRows(i);
-                }
-            }
-            else
+            if (boardMatrix[i][j] != 0)
             {
                 rowBlocksFilled++;
             }
@@ -463,25 +459,27 @@ void GameFlowPlaying::_CheckRowsFilled()
                 boardMatrix[i][j] = 0;
             }
 
+			_DownGradeRestOfRows(i);
+
             SetPuntuation(_mPuntuation + PUNTUATION_UNIT);
             rowDeleted = true;
+			i++;
         }
         rowBlocksFilled = 0;
     }
 }
 
-void GameFlowPlaying::_DownGradeRestOfRows(unsigned int beginningRow)
+void GameFlowPlaying::_DownGradeRestOfRows(unsigned int initialRowToDraw)
 {
-    unsigned short int rowBlocksEmpty = 0;
     int boardColumns = _mBoard->GetColumns();
     int boardRows = _mBoard->GetRows();
     bool** boardMatrix = _mBoard->GetBoardMatrix();
-    int i = boardRows - 1;
-    int k = beginningRow;
-    int rowsToUpdateCount = beginningRow - _mHigestRowMod;
+    int i = initialRowToDraw;
+    int k = initialRowToDraw - 1;
+    int rowsToUpdateCount = k - (_mHigestRowMod - 1);
     int iterationCount = 0;
 
-    for (; iterationCount <= rowsToUpdateCount; iterationCount++, i--, k--)
+    for (; iterationCount < rowsToUpdateCount; iterationCount++, i--, k--)
     {
         for (int j = 0; j < boardColumns; j++)
         {
