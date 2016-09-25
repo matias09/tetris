@@ -8,6 +8,9 @@ LShape::LShape()
         _mMatrix[i] = new bool[SHAPE_DIMENSION];
     }
 
+	_mGyreCoordinate = new unsigned short int[COORDINATE_ELEMENTS];
+	_mGyreCoordinate[X_COORDINATE] = 0;
+	_mGyreCoordinate[Y_COORDINATE] = 2;
 	_mRotateTo = 2;
 }
 
@@ -23,6 +26,12 @@ LShape::~LShape()
 
 	   delete[] _mMatrix;
        _mMatrix = nullptr;
+   }
+
+   if (_mGyreCoordinate!= nullptr)
+   {
+	   delete[] _mGyreCoordinate;
+       _mGyreCoordinate = nullptr;
    }
 }
 

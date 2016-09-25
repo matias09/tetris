@@ -67,7 +67,7 @@ void LineShape::_RotateToLeft()
 	_mRows = 1;
 	_mColumns = 4;
 
-	for (unsigned short int j = 0; j < _mRows; j++)
+	for (unsigned short int j = 0; j < _mColumns; j++)
 	{
 		_mMatrix[0][j] = 1;
 	}

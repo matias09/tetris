@@ -13,21 +13,31 @@ public:
     virtual signed int Run(InputHandlerInterface& inpHandler, GraphicHandlerInterface& grpHandler);
     virtual void Pause();
     virtual void Exit();
-    virtual bool _ThereIsCollision(bool rightDirection);
-	virtual bool _IsBottomOrDownShapeCollision();
 
 	// Set
 	virtual void SetDificultyGrade(const unsigned int dificulty) { _mDificultyGrade = dificulty; }
 	virtual void SetPuntuation(const unsigned int puntuation) { _mPuntuation = puntuation; }
 private:
 	virtual void _ResetShapePtr();
+    bool _ThereIsCollision(bool rightDirection);
+	bool _IsBottomOrDownShapeCollision();
 	void _ExecuteShapeDown();
 	void _ExecuteShapeRight();
 	void _ExecuteShapeLeft();
 	void _ExecuteShapeRotate();
 	void _CheckRowsFilled();
 	void _DownGradeRestOfRows(unsigned int startRow);
+	void _RotateShape();
+	void _CalculateNewXYPosition();
     Shape* _GetRandomShape();
+
+    const unsigned int SCORE_PER_LEVEL_UNIT = 100;
+    const unsigned int DIFFICULTY_UNIT = 200;
+    const unsigned int PUNTUATION_UNIT = 1;
+    const unsigned int OBJECTIVE = 10;
+    const unsigned short int COORDINATE_ELEMENTS = 2;
+    const unsigned short int X_COORDINATE = 0;
+    const unsigned short int Y_COORDINATE = 1;
 
     Shape* _mShape;
     Board* _mBoard;

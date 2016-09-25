@@ -35,41 +35,44 @@ void Board::Create()
     }
 }
 
-void Board::UpdateFigureInBoard(bool** shape, int* shapePosFrom, int* shapePosTo, const int shapeColumns, const int shapeRows)
+void Board::UpdateFigureInBoard(bool** shape, int* shapePos, const int shapeColumns, const int shapeRows)
 {
-    unsigned int xActualPosFrom = shapePosFrom[0];
-    unsigned int yActualPosFrom = shapePosFrom[1];
+    unsigned int xActualPos = shapePos[0];
+    unsigned int yActualPos = shapePos[1];
 
-    unsigned int xActualPosTo = shapePosTo[0];
-    unsigned int yActualPosTo = shapePosTo[1];
-
-	// Loop to erase Pos From 
+	// Loop to set Position To
 	for (int i = 0; i < shapeRows; i++)
 	{
 		for (int j = 0; j < shapeColumns; j++)
 		{
 			if (shape[i][j] != 0)
 			{
-			   _mBoard[yActualPosFrom + i][xActualPosFrom + j] = 0;
+			   _mBoard[yActualPos + i][xActualPos + j] = shape[i][j];
 			}
 		}
 
-		// Reseteo X para que comience desde el principio de la row
-        xActualPosFrom = shapePosFrom[0];
+		// Reset X to begin from the start of row
+        xActualPos = shapePos[0];
     }
+}
 
-	// Loop to set Pos To
+void Board::EraseFigureInBoard(bool** shape, int* shapePos, const int shapeColumns, const int shapeRows)
+{
+    unsigned int xActualPos = shapePos[0];
+    unsigned int yActualPos = shapePos[1];
+
+	// Loop to erase Position From 
 	for (int i = 0; i < shapeRows; i++)
 	{
 		for (int j = 0; j < shapeColumns; j++)
 		{
 			if (shape[i][j] != 0)
 			{
-			   _mBoard[yActualPosTo + i][xActualPosTo + j] = shape[i][j];
+			   _mBoard[yActualPos + i][xActualPos + j] = 0;
 			}
 		}
 
-		// Reseteo X para que comience desde el principio de la row
-        xActualPosTo = shapePosTo[0];
+		// Reset X to begin from the start of row
+        xActualPos = shapePos[0];
     }
 }

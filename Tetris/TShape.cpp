@@ -8,6 +8,9 @@ TShape::TShape()
         _mMatrix[i] = new bool[SHAPE_DIMENSION];
     }
 
+	_mGyreCoordinate = new unsigned short int[COORDINATE_ELEMENTS];
+	_mGyreCoordinate[X_COORDINATE] = 1;
+	_mGyreCoordinate[Y_COORDINATE] = 1;
 	_mRotateTo = 2;
 }
 
@@ -23,6 +26,12 @@ TShape::~TShape()
 
 	   delete[] _mMatrix;
        _mMatrix = nullptr;
+   }
+
+   if (_mGyreCoordinate!= nullptr)
+   {
+	   delete[] _mGyreCoordinate;
+       _mGyreCoordinate = nullptr;
    }
 }
 

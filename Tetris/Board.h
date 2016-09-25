@@ -13,7 +13,8 @@ public:
 	const int GetColumns() { return COLUMNS; }
 	const int GetRows() { return ROWS; }
 	bool** GetBoardMatrix() { return _mBoard; }
-    void UpdateFigureInBoard(bool** shape, int* shapePosFrom, int* shapePosTo, const int colums, const int rows);
+    void UpdateFigureInBoard(bool** shape, int* shapePos, const int colums, const int rows);
+	void EraseFigureInBoard(bool** shape, int* shapePos, const int shapeColumns, const int shapeRows);
 private:
     const int COLUMNS = 10;
     const int ROWS = 20;

@@ -88,7 +88,7 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
         switch (input)
         {
         case InputHandlerInterface::KEY_SPACE:
-            //_ExecuteShapeRotate();
+            _ExecuteShapeRotate();
             break;
         case InputHandlerInterface::KEY_ARROW_DOWN:
             _ExecuteShapeDown();
@@ -124,7 +124,8 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
         {
             if (thereIsCollision == false)
             {
-                _mBoard->UpdateFigureInBoard(_mShape->GetMatrix(), _mPosFrom, _mPosTo, _mShape->GetColumns(), _mShape->GetRows());
+                _mBoard->EraseFigureInBoard(_mShape->GetMatrix(), _mPosFrom, _mShape->GetColumns(), _mShape->GetRows());
+                _mBoard->UpdateFigureInBoard(_mShape->GetMatrix(), _mPosTo, _mShape->GetColumns(), _mShape->GetRows());
                 _mPosFrom[X_COORDINATE] = _mPosTo[X_COORDINATE];
                 _mPosFrom[Y_COORDINATE] = _mPosTo[Y_COORDINATE];
                 grpHandler.Render(_mBoard->GetBoardMatrix(), _mBoard->GetColumns(), _mBoard->GetRows(), _mShape->GetRedVal(), _mShape->GetGreenVal(), _mShape->GetBlueVal());
@@ -348,7 +349,49 @@ void GameFlowPlaying::_ExecuteShapeRotate()
 #ifdef DEBUG
     printf("GAME_FLOW :: SHAPE ROTATE \n ");
 #endif DEBUG
-	_mShape->Rotate();
+
+	// Save Shape actual rotation just in case we have to Roll Back
+	unsigned short int actShpRot = _mShape->GetActualRotation();
+
+	// Clear actual Shape from the board
+	_mBoard->EraseFigureInBoard(_mShape->GetMatrix(), _mPosFrom, _mShape->GetColumns(), _mShape->GetRows());
+	// Change shapeMatrix Form
+	_RotateShape();
+
+	_mBoard->UpdateFigureInBoard(_mShape->GetMatrix(), _mPosFrom, _mShape->GetColumns(), _mShape->GetRows());
+//	_CalculateNewXYPosition();
+	// Calculate _mPostTo using the Rotation Coordinate of the Shape
+	// Check if there is no Collision
+
+}
+
+void GameFlowPlaying::_CalculateNewXYPosition()
+{
+	
+}
+
+void GameFlowPlaying::_RotateShape()
+{
+	unsigned short int actualRotation = _mShape->GetActualRotation();
+    switch (actualRotation)
+    {
+    case 1:
+        _mShape->_RotateToUp();
+    break;
+    case 2:
+        _mShape->_RotateToLeft();
+    break;
+    case 3:
+        _mShape->_RotateToDown();
+    break;
+    case 4:
+		actualRotation = 0;
+        _mShape->_RotateToRight();
+    break;
+    }
+
+	actualRotation++;
+	_mShape->SetActualRotation(actualRotation);
 }
 
 void GameFlowPlaying::_ExecuteShapeDown()

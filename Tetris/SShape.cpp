@@ -8,6 +8,9 @@ SShape::SShape()
 		_mMatrix[i] = new bool[SHAPE_DIMENSION];
 	}
 
+	_mGyreCoordinate = new unsigned short int[COORDINATE_ELEMENTS];
+	_mGyreCoordinate[X_COORDINATE] = 1;
+	_mGyreCoordinate[Y_COORDINATE] = 1;
 	_mRotateTo = 2;
 }
 
@@ -23,6 +26,12 @@ SShape::~SShape()
 
 	   delete[] _mMatrix;
 	   _mMatrix = nullptr;
+   }
+
+   if (_mGyreCoordinate!= nullptr)
+   {
+	   delete[] _mGyreCoordinate;
+       _mGyreCoordinate = nullptr;
    }
 }
 
@@ -81,13 +90,13 @@ void SShape::_RotateToLeft()
 	{
 		for (unsigned short int j = 0; j < _mColumns; j++)
 		{
-			if (j != 1 && i != 0 && j != 0 && i != 2)
+			if ((j == 1 && i == 0) || (j == 0 && i == 2))
 			{
-				_mMatrix[i][j] = 1;
+				_mMatrix[i][j] = 0;
 			}
 			else
 			{
-				_mMatrix[i][j] = 0;
+				_mMatrix[i][j] = 1;
 			}
 		}
 	}
