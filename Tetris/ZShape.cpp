@@ -41,22 +41,6 @@ bool** ZShape::Create()
     return _mMatrix;
 }
 
-void ZShape::Rotate()
-{
-    switch (_mRotateTo)
-    {
-    case 1:
-        _RotateToLeft();
-    break;
-    case 2:
-        _mRotateTo = 0;
-        _RotateToUp();
-    break;
-    }
-
-    _mRotateTo++;
-}
-
 void ZShape::_RotateToUp()
 {
 	_mRows = 2;

@@ -32,22 +32,6 @@ bool** LineShape::Create()
     return _mMatrix;
 }
 
-void LineShape::Rotate()
-{
-    switch (_mRotateTo)
-    {
-    case 1:
-        _RotateToUp();
-    break;
-    case 2:
-        _mRotateTo = 0;
-        _RotateToLeft();
-    break;
-    }
-
-    _mRotateTo++;
-}
-
 void LineShape::_RotateToUp()
 {
 	_mRows = 4;

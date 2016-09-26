@@ -9,7 +9,6 @@ public:
     ZShape();
     virtual ~ZShape();
     virtual bool** Create();
-	virtual void Rotate();
 
 	// Get
     virtual unsigned short int GetColumns() { return _mColumns; }

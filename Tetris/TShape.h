@@ -9,7 +9,6 @@ public:
     TShape();
     virtual ~TShape();
     virtual bool** Create();
-	virtual void Rotate();
 
 	// Get
     virtual unsigned short int GetColumns() { return _mColumns; }

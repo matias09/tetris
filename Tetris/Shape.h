@@ -6,7 +6,6 @@ class Shape
 public:
     virtual ~Shape() {};
     virtual bool** Create() = 0;
-	virtual void Rotate() = 0;
 	virtual void _RotateToUp() = 0;
 	virtual void _RotateToLeft() = 0;
 	virtual void _RotateToDown() = 0;

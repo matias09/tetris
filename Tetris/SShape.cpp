@@ -41,22 +41,6 @@ bool** SShape::Create()
     return _mMatrix;
 }
 
-void SShape::Rotate()
-{
-    switch (_mRotateTo)
-    {
-    case 1:
-        _RotateToLeft();
-    break;
-    case 2:
-        _mRotateTo = 0;
-        _RotateToUp();
-    break;
-    }
-
-    _mRotateTo++;
-}
-
 void SShape::_RotateToUp()
 {
 	_mRows = 2;
