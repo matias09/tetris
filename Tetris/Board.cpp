@@ -35,6 +35,7 @@ void Board::Create()
     }
 }
 
+
 void Board::UpdateFigureInBoard(bool** shape, int* shapePos, const int shapeColumns, const int shapeRows)
 {
     unsigned int xActualPos = shapePos[0];
