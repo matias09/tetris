@@ -142,7 +142,7 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
         }
 
         // If the Player fill rows, we increment Difficulty
-		if (_mPuntuation > 0)
+		if (_mPuntuation > 0 && exitGameFlowPlaying == false)
 		{
 			if (_mDificultyGrade > 200)
 			{
