@@ -77,6 +77,22 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
         {
         case InputHandlerInterface::KEY_SPACE:
             _ExecuteShapeRotate();
+			if (_IsBottomOrDownShapeCollision())
+			{
+				needOfOtherShape = true;
+			} 
+			else if (_ThereIsCollision(true) || _ThereIsCollision(false))
+			{
+				thereIsCollision = true;
+			}
+			
+			if (needOfOtherShape == true || thereIsCollision == true)
+			{
+				_mShape->SetActualRotation(actShpRot);
+
+				// Roll Back shapeMatrix Form
+				_RotateShape();
+			}
             break;
         case InputHandlerInterface::KEY_ARROW_DOWN:
             _ExecuteShapeDown();
@@ -159,7 +175,7 @@ Shape* GameFlowPlaying::_GetRandomShape()
     srand(time(NULL));
     randomShape = rand() % 7;
 
-    /*switch (randomShape)
+    switch (randomShape)
     {
     case 0:
         shape = new ZShape();
@@ -184,8 +200,7 @@ Shape* GameFlowPlaying::_GetRandomShape()
         break;
     default:
         shape = new SquareShape();
-    }*/
-        shape = new LineShape();
+    }
     shape->Create();
     return shape;
 }
@@ -239,37 +254,44 @@ bool GameFlowPlaying::_ThereIsCollision(bool rightDirection)
 	xActualPos = cpyXActualPos;
 	yActualPos = cpyYActualPos;
 
-	bool** shapeMatrix = _mShape->GetMatrix();
-	bool** boardMatrix = _mBoard->GetBoardMatrix();
+    if (xActualPos != -1 && xActualPos != boardColumns)
+    {
+        bool** shapeMatrix = _mShape->GetMatrix();
+        bool** boardMatrix = _mBoard->GetBoardMatrix();
 
-	for (int i = iStartPoint; i != iLimit && collision == false; i += incrementAmount)
-	{
-		for (int j = jStartPoint; j != jLimit; j += incrementAmount)
-		{
-			if (shapeMatrix[i][j] == 1)
-			{
-				if (xActualPos < 0
-					|| xActualPos > boardColumns 
-					|| boardMatrix[yActualPos][xActualPos] == 1)
+        for (int i = iStartPoint; i != iLimit && collision == false; i += incrementAmount)
+        {
+            for (int j = jStartPoint; j != jLimit; j += incrementAmount)
+            {
+                if (shapeMatrix[i][j] == 1)
+                {
+                    if (boardMatrix[yActualPos][xActualPos] == 1)
+                    {
+                        _mPosTo[X_COORDINATE] = _mPosFrom[X_COORDINATE];
+                        _mPosTo[Y_COORDINATE] = _mPosFrom[Y_COORDINATE];
+                        collision = true;
+                        break;
+                    }
+                }
+				else
 				{
-					_mPosTo[X_COORDINATE] = _mPosFrom[X_COORDINATE];
-					_mPosTo[Y_COORDINATE] = _mPosFrom[Y_COORDINATE];
-					collision = true;
-					break;
+					xActualPos = xActualPos + moveXPos;
 				}
-			}
-			else
-			{
-				xActualPos = xActualPos + moveXPos;
-			}
-		}
+            }
 
-		// This is increasing Y Axis
-		yActualPos = yActualPos + incrementAmount;
+            // This is increasing Y Axis
+            yActualPos = yActualPos + incrementAmount;
 
-		// Reset X Axis
-		xActualPos = cpyXActualPos;
-	}
+            // Reset X Axis
+            xActualPos = cpyXActualPos;
+        }
+    }
+    else
+    {
+        _mPosTo[X_COORDINATE] = _mPosFrom[X_COORDINATE];
+        _mPosTo[Y_COORDINATE] = _mPosFrom[Y_COORDINATE];
+        collision = true;
+    }
 
     return collision;
 }
@@ -342,45 +364,14 @@ void GameFlowPlaying::_ResetShapePtr()
 
 void GameFlowPlaying::_ExecuteShapeRotate()
 {
-	unsigned short int boardRows = _mBoard->GetRows();
-	unsigned short int boardColumns = _mBoard->GetColumns();
-
-    bool** cpyBoard = new bool*[boardRows];
-    for (int i = 0; i < boardRows; ++i)
-    {
-        cpyBoard[i] = new bool[boardColumns];
-    }
-
 	// Save Shape actual rotation just in case we have to Roll Back
 	actShpRot = _mShape->GetActualRotation();
 
-	// Backup the Board
-	//**cpyBoard = _mBoard->MakeCopy(_mBoard->GetBoardMatrix());
-
+	// Clear actual Shape from the board
 	_mBoard->EraseFigureInBoard(_mShape->GetMatrix(), _mPosFrom, _mShape->GetColumns(), _mShape->GetRows());
 
 	// Change shapeMatrix Form
 	_RotateShape();
-
-
-	if (_ThereIsCollision(true) || _ThereIsCollision(false) || _IsBottomOrDownShapeCollision())
-	{
-		// Reset to the state before copy
-		 _mBoard->MakeRollBack(cpyBoard);
-
-	}
-
-   if (cpyBoard != nullptr)
-   {
-       for (int i = 0; i < boardRows; ++i)
-       {
-           delete[] cpyBoard[i];
-           cpyBoard[i] = nullptr;
-       } 
-
-       delete[] cpyBoard;
-       cpyBoard = nullptr;
-   }
 
 	// Calculate _mPostTo using the Rotation Coordinate of the Shape
 //	_CalculateNewXYPosition();
