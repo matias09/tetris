@@ -77,7 +77,7 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
         switch (input)
         {
         case InputHandlerInterface::KEY_SPACE:
-            _ExecuteShapeRotate();
+            //_ExecuteShapeRotate();
             break;
         case InputHandlerInterface::KEY_ARROW_DOWN:
             _ExecuteShapeDown();
