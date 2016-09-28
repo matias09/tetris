@@ -25,6 +25,9 @@ GameFlowPlaying::GameFlowPlaying()
 
     _mDificultyGrade = 700;
     _mPuntuation = 0;
+
+    _mThereIsLateralCollision = false;
+    _mThereIsBottomCollision = false;
 }
 GameFlowPlaying::~GameFlowPlaying()
 {
@@ -51,8 +54,6 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
     _mShape = _GetRandomShape();
 
     bool exitGameFlowPlaying = false;
-    bool thereIsCollision = false;
-    bool needOfOtherShape = false;
     unsigned int currentTime = 0;
     unsigned int lastTime = 0;
     signed int input = 0;
@@ -77,41 +78,25 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
         {
         case InputHandlerInterface::KEY_SPACE:
             _ExecuteShapeRotate();
-			if (_IsBottomOrDownShapeCollision())
-			{
-				needOfOtherShape = true;
-			} 
-			else if (_ThereIsCollision(true) || _ThereIsCollision(false))
-			{
-				thereIsCollision = true;
-			}
-			
-			if (needOfOtherShape == true || thereIsCollision == true)
-			{
-				_mShape->SetActualRotation(actShpRot);
-
-				// Roll Back shapeMatrix Form
-				_RotateShape();
-			}
             break;
         case InputHandlerInterface::KEY_ARROW_DOWN:
             _ExecuteShapeDown();
-            needOfOtherShape = _IsBottomOrDownShapeCollision();
+            _mThereIsBottomCollision = _IsBottomOrDownShapeCollision();
             break;
         case InputHandlerInterface::KEY_ARROW_RIGHT:
             _ExecuteShapeRight();
-            thereIsCollision = _ThereIsCollision(true);
+            _mThereIsLateralCollision = _ThereIsCollision(true);
             break;
         case InputHandlerInterface::KEY_ARROW_LEFT:
             _ExecuteShapeLeft();
-            thereIsCollision = _ThereIsCollision(false);
+            _mThereIsLateralCollision = _ThereIsCollision(false);
             break;
         case InputHandlerInterface::KEY_SCAPE:
             exitGameFlowPlaying = GAME_STATES::EXIT_GAME;
             break;
         }
 
-        if (needOfOtherShape == true)
+        if (_mThereIsBottomCollision == true)
         {
             if (_mPosFrom[Y_COORDINATE] < _mHigestRowMod)
             {
@@ -121,13 +106,13 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
 					exitGameFlowPlaying = GAME_STATES::EXIT_GAME;
 				}
             }
-            needOfOtherShape = false;
+            _mThereIsBottomCollision = false;
             _CheckRowsFilled();
             _mShape = _GetRandomShape();
         }
         else
         {
-            if (thereIsCollision == false)
+            if (_mThereIsLateralCollision == false)
             {
                 _mBoard->EraseFigureInBoard(_mShape->GetMatrix(), _mPosFrom, _mShape->GetColumns(), _mShape->GetRows());
                 _mBoard->UpdateFigureInBoard(_mShape->GetMatrix(), _mPosTo, _mShape->GetColumns(), _mShape->GetRows());
@@ -137,7 +122,7 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
             }
             else
             {
-                thereIsCollision = false;
+                _mThereIsLateralCollision = false;
             }
         }
 
@@ -364,14 +349,34 @@ void GameFlowPlaying::_ResetShapePtr()
 
 void GameFlowPlaying::_ExecuteShapeRotate()
 {
-	// Save Shape actual rotation just in case we have to Roll Back
-	actShpRot = _mShape->GetActualRotation();
+    // Clear actual Shape from the board
+    _mBoard->EraseFigureInBoard(_mShape->GetMatrix(), _mPosFrom, _mShape->GetColumns(), _mShape->GetRows());
 
-	// Clear actual Shape from the board
-	_mBoard->EraseFigureInBoard(_mShape->GetMatrix(), _mPosFrom, _mShape->GetColumns(), _mShape->GetRows());
+    // Change shapeMatrix Form
+    _RotateShape();
 
-	// Change shapeMatrix Form
-	_RotateShape();
+    // Save Shape actual rotation just in case we have to Roll Back
+    actShpRot = _mShape->GetActualRotation();
+
+    if (_IsBottomOrDownShapeCollision())
+    {
+        SetThereIsBottomCollision(true);
+    } 
+    else if (_ThereIsCollision(true) || _ThereIsCollision(false))
+    {
+        SetThereIsLateralCollision(true);
+    }
+
+    if (_mThereIsBottomCollision == true || _mThereIsLateralCollision == true)
+    {
+        _mShape->SetActualRotation(actShpRot);
+
+        // Roll Back shapeMatrix Form
+        _RotateShape();
+
+        _mBoard->UpdateFigureInBoard(_mShape->GetMatrix(), _mPosTo, _mShape->GetColumns(), _mShape->GetRows());
+    }
+
 
 	// Calculate _mPostTo using the Rotation Coordinate of the Shape
 //	_CalculateNewXYPosition();

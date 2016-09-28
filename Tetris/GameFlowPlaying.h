@@ -15,11 +15,13 @@ public:
     virtual void Exit();
 
 	// Set
-	virtual void SetDificultyGrade(const unsigned int dificulty) { _mDificultyGrade = dificulty; }
-	virtual void SetPuntuation(const unsigned int puntuation) { _mPuntuation = puntuation; }
-	virtual void SetScore(const unsigned int score) { _mScore = score; }
+	void SetDificultyGrade(const unsigned int dificulty) { _mDificultyGrade = dificulty; }
+	void SetPuntuation(const unsigned int puntuation) { _mPuntuation = puntuation; }
+	void SetScore(const unsigned int score) { _mScore = score; }
+	void SetThereIsLateralCollision(const bool thereIsCollision) { _mThereIsLateralCollision = thereIsCollision; }
+	void SetThereIsBottomCollision(const bool thereIsCollision) { _mThereIsBottomCollision = thereIsCollision; }
 private:
-	virtual void _ResetShapePtr();
+	void _ResetShapePtr();
     bool _ThereIsCollision(bool rightDirection);
 	bool _IsBottomOrDownShapeCollision();
 	void _ExecuteShapeDown();
@@ -43,6 +45,8 @@ private:
 
     Shape* _mShape;
     Board* _mBoard;
+    bool _mThereIsLateralCollision;
+    bool _mThereIsBottomCollision;
     int _mTime;
     int _mHigestRowMod;
     unsigned int _mScore;
