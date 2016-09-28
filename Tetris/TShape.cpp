@@ -41,28 +41,6 @@ bool** TShape::Create()
     return _mMatrix;
 }
 
-void TShape::Rotate()
-{
-    switch (_mRotateTo)
-    {
-    case 1:
-        _RotateToUp();
-    break;
-    case 2:
-        _RotateToLeft();
-    break;
-    case 3:
-        _RotateToDown();
-    break;
-    case 4:
-        _mRotateTo = 0;
-        _RotateToRight();
-    break;
-    }
-
-    _mRotateTo++;
-}
-
 void TShape::_RotateToUp()
 {
 	_mRows = 2;

@@ -36,7 +36,7 @@ private:
 
     const unsigned int SCORE_PER_LEVEL_UNIT = 100;
     const unsigned int CONSTANT_DIFICULTY = 50;
-    const unsigned int DIFFICULTY_UNIT = 100;
+    const unsigned int DIFFICULTY_UNIT = 50;
     const unsigned int PUNTUATION_UNIT = 1;
     const unsigned int OBJECTIVE = 5;
     const unsigned short int COORDINATE_ELEMENTS = 2;
