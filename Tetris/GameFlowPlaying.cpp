@@ -101,7 +101,7 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
             if (_mPosFrom[Y_COORDINATE] < _mHigestRowMod)
             {
                 _mHigestRowMod = _mPosFrom[Y_COORDINATE];
-				if (_mHigestRowMod == 0)
+				if (_mHigestRowMod < 1)
 				{
 					exitGameFlowPlaying = GAME_STATES::EXIT_GAME;
 				}
@@ -375,8 +375,10 @@ void GameFlowPlaying::_ExecuteShapeRotate()
         _RotateShape();
 
         _mBoard->UpdateFigureInBoard(_mShape->GetMatrix(), _mPosTo, _mShape->GetColumns(), _mShape->GetRows());
-    }
 
+        SetThereIsBottomCollision(false);
+        SetThereIsLateralCollision(false);
+    }
 
 	// Calculate _mPostTo using the Rotation Coordinate of the Shape
 //	_CalculateNewXYPosition();
