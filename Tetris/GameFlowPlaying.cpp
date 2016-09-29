@@ -239,43 +239,37 @@ bool GameFlowPlaying::_ThereIsCollision(bool rightDirection)
 	xActualPos = cpyXActualPos;
 	yActualPos = cpyYActualPos;
 
-    if (xActualPos != -1 && xActualPos != boardColumns)
-    {
-        bool** shapeMatrix = _mShape->GetMatrix();
-        bool** boardMatrix = _mBoard->GetBoardMatrix();
+    //if (xActualPos != -1 && xActualPos != boardColumns)
+    bool** shapeMatrix = _mShape->GetMatrix();
+    bool** boardMatrix = _mBoard->GetBoardMatrix();
 
-        for (int i = iStartPoint; i != iLimit && collision == false; i += incrementAmount)
+    for (int i = iStartPoint; i != iLimit && collision == false; i += incrementAmount)
+    {
+        for (int j = jStartPoint; j != jLimit; j += incrementAmount)
         {
-            for (int j = jStartPoint; j != jLimit; j += incrementAmount)
+            if (shapeMatrix[i][j] == 1)
             {
-                if (shapeMatrix[i][j] == 1)
-                {
-                    if (boardMatrix[yActualPos][xActualPos] == 1)
-                    {
-                        _mPosTo[X_COORDINATE] = _mPosFrom[X_COORDINATE];
-                        _mPosTo[Y_COORDINATE] = _mPosFrom[Y_COORDINATE];
-                        collision = true;
-                        break;
-                    }
+                if (xActualPos < 0 
+                    || xActualPos >= boardColumns
+                    || boardMatrix[yActualPos][xActualPos] == 1
+                ) {
+                    _mPosTo[X_COORDINATE] = _mPosFrom[X_COORDINATE];
+                    _mPosTo[Y_COORDINATE] = _mPosFrom[Y_COORDINATE];
+                    collision = true;
+                    break;
                 }
-				else
-				{
-					xActualPos = xActualPos + moveXPos;
-				}
             }
-
-            // This is increasing Y Axis
-            yActualPos = yActualPos + incrementAmount;
-
-            // Reset X Axis
-            xActualPos = cpyXActualPos;
+            else
+            {
+                xActualPos = xActualPos + moveXPos;
+            }
         }
-    }
-    else
-    {
-        _mPosTo[X_COORDINATE] = _mPosFrom[X_COORDINATE];
-        _mPosTo[Y_COORDINATE] = _mPosFrom[Y_COORDINATE];
-        collision = true;
+
+        // This is increasing Y Axis
+        yActualPos = yActualPos + incrementAmount;
+
+        // Reset X Axis
+        xActualPos = cpyXActualPos;
     }
 
     return collision;
