@@ -108,6 +108,7 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
             }
             _mThereIsBottomCollision = false;
             _CheckRowsFilled();
+            _ResetShapePtr();
             _mShape = _GetRandomShape();
         }
         else
@@ -154,8 +155,7 @@ void GameFlowPlaying::Exit()
 Shape* GameFlowPlaying::_GetRandomShape()
 {
     unsigned short int randomShape = 0;
-    Shape* shape;
-    _ResetShapePtr();
+    Shape* shape;    
 
     srand(time(NULL));
     randomShape = rand() % 7;
