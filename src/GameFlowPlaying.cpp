@@ -46,7 +46,7 @@ GameFlowPlaying::~GameFlowPlaying()
 
 signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandlerInterface& grpHandler)
 {
-    // Build Board 
+    // Build Board
     _mBoard = new Board();
     _mBoard->Create();
 
@@ -77,7 +77,7 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
         switch (input)
         {
         case InputHandlerInterface::KEY_SPACE:
-            //_ExecuteShapeRotate();
+            _ExecuteShapeRotate();
             break;
         case InputHandlerInterface::KEY_ARROW_DOWN:
             _ExecuteShapeDown();
@@ -108,6 +108,7 @@ signed int GameFlowPlaying::Run(InputHandlerInterface& inpHandler, GraphicHandle
             }
             _mThereIsBottomCollision = false;
             _CheckRowsFilled();
+            _ResetShapePtr();
             _mShape = _GetRandomShape();
         }
         else
@@ -155,7 +156,6 @@ Shape* GameFlowPlaying::_GetRandomShape()
 {
     unsigned short int randomShape = 0;
     Shape* shape;
-    _ResetShapePtr();
 
     srand(time(NULL));
     randomShape = rand() % 7;
@@ -361,7 +361,7 @@ void GameFlowPlaying::_ExecuteShapeRotate()
     if (_IsBottomOrDownShapeCollision())
     {
         SetThereIsBottomCollision(true);
-    } 
+    }
     else if (_ThereIsCollision(true) || _ThereIsCollision(false))
     {
         SetThereIsLateralCollision(true);
