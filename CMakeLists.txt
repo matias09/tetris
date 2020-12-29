@@ -19,7 +19,6 @@ project(tetris VERSION 0.1 LANGUAGES CXX)
 # add flags to compiler
 add_compile_options(-std=c++11)
 
-
 #-----------------------------------
 # sources
 #-----------------------------------
@@ -41,13 +40,11 @@ add_executable (${PROJECT_NAME}
   ${CMAKE_SOURCE_DIR}/src/ZShape.cpp
 )
 
-
 #-----------------------------------
 # include headers
 #-----------------------------------
 target_include_directories (${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/lib/sdl2/include)
 #target_include_directories (${PROJECT_NAME} PRIVATE ${SDL2_INCLUDE_DIRS})
-
 
 #-----------------------------------
 # link libraries

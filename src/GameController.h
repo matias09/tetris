@@ -15,6 +15,7 @@ public:
     ~GameController();
     bool ThereIsAnyToolError();
     int Run();
+
 private: 
     int _mActualState = 0;
     InputHandlerInterface* _mInputHandler;

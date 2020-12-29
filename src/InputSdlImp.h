@@ -6,14 +6,14 @@
 class InputSdlImp : public InputHandlerInterface
 {
 public:
-    InputSdlImp();
-    virtual ~InputSdlImp();
-    virtual bool IsInputSdlEnabled();
-    virtual signed int GetInput();
-	virtual unsigned int GetTicks();
+  InputSdlImp();
+  virtual ~InputSdlImp();
+  virtual bool IsInputSdlEnabled();
+  virtual signed int GetInput();
+  virtual unsigned int GetTicks();
 private:
-    bool _mIsSdlEventsInitialized = false;
+  bool _mIsSdlEventsInitialized = false;
 
-    const int SDL_EVENT_INITIALIZED = 0;
+  const int SDL_EVENT_INITIALIZED = 0;
 };
 #endif // !INPUT_SDL_IMP_H

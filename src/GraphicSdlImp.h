@@ -7,18 +7,26 @@
 class GraphicSdlImp : public GraphicHandlerInterface
 {
 public:
-    GraphicSdlImp();
-    virtual ~GraphicSdlImp();
-    virtual bool IsGraphicSdlEnabled();
-    virtual void Render(bool** matrix, const int columns, const int rows, const int redVal, const int greenVal, const int blueVal);
-    virtual void CreateWindow();
-private:
-    const int SDL_GRAPHIC_INITIALIZED = 0;
+  GraphicSdlImp();
+  virtual ~GraphicSdlImp();
+  virtual bool IsGraphicSdlEnabled();
 
-    bool _mIsGraphicEnable = false;
-    SDL_Window* _mWindow = nullptr;
-    SDL_Surface* _mSurface = nullptr;
-    SDL_Rect* _mSquare = nullptr;
+  virtual void Render(bool **matrix
+                    , const int columns
+                    , const int rows
+                    , const int redVal
+                    , const int greenVal
+                    , const int blueVal);
+
+  virtual void CreateWindow();
+
+private:
+  const int SDL_GRAPHIC_INITIALIZED = 0;
+
+  bool _mIsGraphicEnable = false;
+  SDL_Window* _mWindow = nullptr;
+  SDL_Surface* _mSurface = nullptr;
+  SDL_Rect* _mSquare = nullptr;
 };
 
 #endif // !GRAPHIC_SDL_IMP_H

@@ -6,7 +6,7 @@
 class InputHandlerFactory
 {
 public:
-    InputHandlerInterface* GetInputHandler(const int inputHandlerImp);
+  InputHandlerInterface* GetInputHandler(const int handler);
 };
 
 #endif //INPUT_HANDLER_FACTORY_H

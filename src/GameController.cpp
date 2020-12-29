@@ -12,73 +12,60 @@
 
 GameController::GameController()
 {
-    InputHandlerFactory inpFactory;
-    _mInputHandler = inpFactory.GetInputHandler(INPUT_CONFIG::INPUT_IMPLEMENTATION::SDL);
+  InputHandlerFactory inpFactory;
+  GraphicHandlerFactory grpFactory;
 
-    GraphicHandlerFactory grpFactory;
-    _mGraphicHandler = grpFactory.GetGraphicHandler(GRAPHIC_CONFIG::GRAPHIC_IMPLEMENTATION::SDL);
+  _mInputHandler = inpFactory.GetInputHandler(
+      INPUT_CONFIG::INPUT_IMPLEMENTATION::SDL);
 
-    _mActualState = GAME_STATES::IN_GAME;
+  _mGraphicHandler = grpFactory.GetGraphicHandler(
+      GRAPHIC_CONFIG::GRAPHIC_IMPLEMENTATION::SDL);
+
+  _mActualState = GAME_STATES::IN_GAME;
 }
 
 GameController::~GameController()
 {
-    if (_mInputHandler != nullptr)
-    {
-        delete _mInputHandler;
-        _mInputHandler = nullptr;
-    }
+  if (_mInputHandler != nullptr) {
+    delete _mInputHandler;
+    _mInputHandler = nullptr;
+  }
 
-    if (_mGraphicHandler != nullptr)
-    {
-        delete _mGraphicHandler;
-        _mGraphicHandler = nullptr;
-    }
+  if (_mGraphicHandler != nullptr) {
+    delete _mGraphicHandler;
+    _mGraphicHandler = nullptr;
+  }
 }
 
 bool GameController::ThereIsAnyToolError()
 {
-    bool toolError = false;
+  bool toolError = false;
 
-    if (_mInputHandler == nullptr)
-    {
-        toolError = true;
-    }
-    else if (_mInputHandler->IsInputSdlEnabled() != false)
-    {
-        toolError = true;
-    }
+  if (_mInputHandler == nullptr || not _mInputHandler->IsInputSdlEnabled() )
+    toolError = true;
 
-    if (_mGraphicHandler == nullptr)
-    {
-        toolError = true;
-    }
-    else if (_mGraphicHandler->IsGraphicSdlEnabled() != false)
-    {
-        toolError = true;
-    }
+  if (_mGraphicHandler == nullptr || not _mGraphicHandler->IsGraphicSdlEnabled() )
+      toolError = true;
 
-    return toolError;
+  return toolError;
 }
 
 int GameController::Run()
 {
-    //TODO chequiar que las instancias de los handlers no sean nulas
-    _mGameFlow = new GameFlowPlaying();
+  _mGameFlow = new GameFlowPlaying();
 
-    while (_mActualState != GAME_EVENTS::EXIT_GAME_SUCCEFULLY)
+  while (_mActualState != GAME_EVENTS::EXIT_GAME_SUCCEFULLY)
+  {
+    switch (_mActualState)
     {
-        switch (_mActualState)
-        {
-        case GAME_STATES::IN_GAME:
-            _mActualState = _mGameFlow->Run(*_mInputHandler, *_mGraphicHandler);
-            break;
-        case GAME_STATES::EXIT_GAME:
-            _mActualState = GAME_EVENTS::EXIT_GAME_SUCCEFULLY;
-            break;
-        }
+      case GAME_STATES::IN_GAME:
+        _mActualState = _mGameFlow->Run(*_mInputHandler, *_mGraphicHandler);
+        break;
+      case GAME_STATES::EXIT_GAME:
+        _mActualState = GAME_EVENTS::EXIT_GAME_SUCCEFULLY;
+        break;
     }
+  }
 
-    return _mActualState;
+  return _mActualState;
 }
-

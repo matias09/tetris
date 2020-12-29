@@ -4,22 +4,18 @@
 // Implementations
 #include "GraphicSdlImp.h"
 
-GraphicHandlerFactory::GraphicHandlerFactory()
-{}
+GraphicHandlerFactory::GraphicHandlerFactory() {}
+GraphicHandlerFactory::~GraphicHandlerFactory() {}
 
-GraphicHandlerFactory::~GraphicHandlerFactory()
-{}
-
-GraphicHandlerInterface * GraphicHandlerFactory::GetGraphicHandler(const int lib)
+GraphicHandlerInterface* GraphicHandlerFactory::GetGraphicHandler(const int lib)
 {
-    GraphicHandlerInterface* grpHandler = nullptr;
+  GraphicHandlerInterface* grpHandler = nullptr;
 
-    switch (lib)
-    {
-    case GRAPHIC_CONFIG::GRAPHIC_IMPLEMENTATION::SDL:
-        grpHandler = new GraphicSdlImp();
-        break;
-    }
+  switch (lib) {
+  case GRAPHIC_CONFIG::GRAPHIC_IMPLEMENTATION::SDL:
+    grpHandler = new GraphicSdlImp();
+    break;
+  }
 
-    return grpHandler;
+  return grpHandler;
 }

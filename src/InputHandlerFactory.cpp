@@ -4,16 +4,15 @@
 // Implementations
 #include "InputSdlImp.h"
 
-InputHandlerInterface* InputHandlerFactory::GetInputHandler(const int inputHandlerImp)
+InputHandlerInterface* InputHandlerFactory::GetInputHandler(const int handler)
 {
-    InputHandlerInterface* inpHnd = nullptr;
+  InputHandlerInterface* inpHnd = nullptr;
 
-    switch (inputHandlerImp)
-    {
-    case INPUT_CONFIG::INPUT_IMPLEMENTATION::SDL:
-        inpHnd = new InputSdlImp();
-        break;
-    }
+  switch (handler) {
+  case INPUT_CONFIG::INPUT_IMPLEMENTATION::SDL:
+    inpHnd = new InputSdlImp();
+    break;
+  }
 
-    return inpHnd;
+  return inpHnd;
 }
